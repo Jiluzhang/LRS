@@ -60,6 +60,20 @@ samtools reheader test_raw_header.sam test_raw.bam > test_raw_reheader.bam
 ft predict-m6a -t 4 -b 2 -k test_raw_reheader.bam test_m6a.bam
 
 
+## https://github.com/PacificBiosciences/jasmine
+## Call select base modifications in PacBio HiFi reads
+conda install -c bioconda pbjasmine
+conda install -c bioconda pbccs
+
+ccs -j 8 --all-kinetics test_raw.bam test_raw_ccs.bam
+# -j,--num-threads          INT    Number of threads to use, 0 means autodetection. [0]
+
+jasmine --keep-kinetics -j 8 test_raw_ccs.bam test_m6a.bam
+# --keep-kinetics            Keep kinetics tracks 'fi', 'fp', 'fn', 'ri', 'rp' and 'rn'.
+# -j,--num-threads     INT   Number of threads to use, 0 means autodetection. [0]
+
+
+| 20250604 13:15:03.662 | WARN | Model (5mC) chemistry (R/P2-C2/5.0-25M) differs from data chemistry (R/P1-C1/5.0-25M)
 
 
 
