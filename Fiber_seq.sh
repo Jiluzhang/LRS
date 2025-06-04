@@ -73,8 +73,9 @@ jasmine --keep-kinetics -j 8 test_raw_ccs.bam test_m6a.bam
 # -j,--num-threads     INT   Number of threads to use, 0 means autodetection. [0]
 
 
-| 20250604 13:15:03.662 | WARN | Model (5mC) chemistry (R/P2-C2/5.0-25M) differs from data chemistry (R/P1-C1/5.0-25M)
+## PacBio BAM format specification: https://pacbiofileformats.readthedocs.io/en/latest/BAM.html#use-of-read-tags-for-per-read-base-base-modifications
 
+## GSE146941: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE146941
 
 
 #---------------------intallation failed (by cargo)-------------------------------------------------#
