@@ -38,6 +38,19 @@ pbmm2 align Homo_sapiens.GRCh38.dna.chromosome.22.mmi test.fastq.gz test.bam --p
 # -j,--num-threads           INT    Number of threads to use, 0 means autodetection. [0]
 # -J,--sort-threads          INT    Number of threads used for sorting; 0 means 25% of -j, maximum 8. [0]
 
+
+mamba install -c conda-forge -c bioconda fibertools-rs  # not support GPU acceleration
+
+ft fire test.bam test_fire.bam
+ft fire --extract test_fire.bam fire.bed.gz
+ft fire --extract --all test_fire.bam all.bed.gz
+
+
+
+
+
+
+
 #---------------------intallation failed (by cargo)-------------------------------------------------#
 # wget -c https://download.pytorch.org/libtorch/cu118/libtorch-shared-with-deps-2.2.0%2Bcu118.zip
 # unzip libtorch-shared-with-deps-2.2.0+cu118.zip
@@ -54,17 +67,3 @@ pbmm2 align Homo_sapiens.GRCh38.dna.chromosome.22.mmi test.fastq.gz test.bam --p
 
 # cargo install --all-features fibertools-rs
 #-------------------------------------------------------------------------------------------------------#
-
-mamba install -c conda-forge -c bioconda fibertools-rs  # not support GPU acceleration
-
-ft fire test.bam test_fire.bam
-ft fire --extract test_fire.bam fire.bed.gz
-ft fire --extract --all test_fire.bam all.bed.gz
-
-
-
-
-
-
-
-
