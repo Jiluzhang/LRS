@@ -35,6 +35,19 @@ conda install -c bioconda pbccs
 # era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/SRR113/059/SRR11304359/SRR11304359_subreads.fastq.gz k562_test.fastq.gz
 
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304366/DS76915_run1.ZMW180290641_180554589.subreads.bam.1  # bam file (include kinetics info)
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304358/DS76915_run1.ZMW139527343_144967719.subreads.bam.1
+
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304357/DS76915_run1.ZMW0_4588045.subreads.bam.1 > SRR11304357.log &             # 2913262
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304359/DS76915_run1.ZMW144967724_150276627.subreads.bam.1 > SRR11304359.log &   # 2914421
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304360/DS76915_run1.ZMW150276628_155517675.subreads.bam.1 > SRR11304360.log &   # 2914903
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304361/DS76915_run1.ZMW155517676_160500284.subreads.bam.1 > SRR11304361.log &   # 2915395
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304362/DS76915_run1.ZMW160500285_165479819.subreads.bam.1 > SRR11304362.log &   # 2917791
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304363/DS76915_run1.ZMW165479825_170525518.subreads.bam.1 > SRR11304363.log &   # 2918491
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304364/DS76915_run1.ZMW170525519_175439978.subreads.bam.1 > SRR11304364.log &   # 2919490
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304365/DS76915_run1.ZMW175439980_180290639.subreads.bam.1 > SRR11304365.log &   # 2919966
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304367/DS76915_run1.ZMW18546864_23136760.subreads.bam.1 > SRR11304367.log &     # 2926992
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304368/DS76915_run1.ZMW100599331_106037253.subreads.bam.1 > SRR11304368.log &   # 2927300
+# SRR11304368 -> SRR11304392 (TBC)
 
 ## download human reference fasta file
 wget -c https://ftp.ensembl.org/pub/release-114/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
@@ -110,6 +123,7 @@ pip install -i https://pypi.tuna.tsinghua.edu.cn/simple python-igraph
 conda install -c conda-forge pycairo
 conda install ipython
 
+## https://www.aidoczh.com/igraph/generation.html
 
 import igraph as ig
 
