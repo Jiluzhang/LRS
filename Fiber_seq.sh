@@ -119,8 +119,15 @@ g.vs["label"] = g.vs["name"]
 g.es["weight"] = [1, 2, 3]
 ig.plot(g, 'test_graph.pdf', edge_width=g.es["weight"], bbox=(300, 300))
 
- 
-
+m = np.array([[0, 2, 3, 0], [2, 0, 0, 4], [3, 0, 0, 1], [0, 4, 1, 0]])
+g = ig.Graph.Weighted_Adjacency(m, mode='undirected')
+g.vs["name"] = ["E1", "E2", "E3", "P1"]
+g.vs["label"] = g.vs["name"]
+row_indices, col_indices = np.triu_indices(m.shape[0], k=1)
+g.es["weight"] = [i for i in m[row_indices, col_indices] if i!=0]
+visual_style = {'edge_width':g.es['weight'],
+                'edge_label':g.es['weight']}
+ig.plot(g, 'test_graph.pdf', bbox=(300, 300), **visual_style)
 
 
 
