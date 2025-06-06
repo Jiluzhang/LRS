@@ -37,17 +37,32 @@ conda install -c bioconda pbccs
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304366/DS76915_run1.ZMW180290641_180554589.subreads.bam.1  # bam file (include kinetics info)
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304358/DS76915_run1.ZMW139527343_144967719.subreads.bam.1
 
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304357/DS76915_run1.ZMW0_4588045.subreads.bam.1 > SRR11304357.log &             # 2913262
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304359/DS76915_run1.ZMW144967724_150276627.subreads.bam.1 > SRR11304359.log &   # 2914421
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304360/DS76915_run1.ZMW150276628_155517675.subreads.bam.1 > SRR11304360.log &   # 2914903
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304361/DS76915_run1.ZMW155517676_160500284.subreads.bam.1 > SRR11304361.log &   # 2915395
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304362/DS76915_run1.ZMW160500285_165479819.subreads.bam.1 > SRR11304362.log &   # 2917791
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304363/DS76915_run1.ZMW165479825_170525518.subreads.bam.1 > SRR11304363.log &   # 2918491
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304364/DS76915_run1.ZMW170525519_175439978.subreads.bam.1 > SRR11304364.log &   # 2919490
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304365/DS76915_run1.ZMW175439980_180290639.subreads.bam.1 > SRR11304365.log &   # 2919966
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304367/DS76915_run1.ZMW18546864_23136760.subreads.bam.1 > SRR11304367.log &     # 2926992
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304368/DS76915_run1.ZMW100599331_106037253.subreads.bam.1 > SRR11304368.log &   # 2927300
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304357/DS76915_run1.ZMW0_4588045.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304358/DS76915_run1.ZMW139527343_144967719.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304359/DS76915_run1.ZMW144967724_150276627.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304360/DS76915_run1.ZMW150276628_155517675.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304361/DS76915_run1.ZMW155517676_160500284.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304362/DS76915_run1.ZMW160500285_165479819.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304363/DS76915_run1.ZMW165479825_170525518.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304364/DS76915_run1.ZMW170525519_175439978.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304365/DS76915_run1.ZMW175439980_180290639.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304366/DS76915_run1.ZMW180290641_180554589.subreads.bam.1 
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304367/DS76915_run1.ZMW18546864_23136760.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304368/DS76915_run1.ZMW100599331_106037253.subreads.bam.1
 # SRR11304368 -> SRR11304392 (TBC)
+
+cp ./raw_data/DS76915_run1.ZMW0_4588045.subreads.bam.1           k562_00.subreads.bam
+cp ./raw_data/DS76915_run1.ZMW139527343_144967719.subreads.bam.1 k562_01.subreads.bam
+cp ./raw_data/DS76915_run1.ZMW144967724_150276627.subreads.bam.1 k562_02.subreads.bam
+cp ./raw_data/DS76915_run1.ZMW150276628_155517675.subreads.bam.1 k562_03.subreads.bam
+cp ./raw_data/DS76915_run1.ZMW155517676_160500284.subreads.bam.1 k562_04.subreads.bam
+cp ./raw_data/DS76915_run1.ZMW160500285_165479819.subreads.bam.1 k562_05.subreads.bam
+cp ./raw_data/DS76915_run1.ZMW165479825_170525518.subreads.bam.1 k562_06.subreads.bam
+cp ./raw_data/DS76915_run1.ZMW170525519_175439978.subreads.bam.1 k562_07.subreads.bam
+cp ./raw_data/DS76915_run1.ZMW175439980_180290639.subreads.bam.1 k562_08.subreads.bam
+cp ./raw_data/DS76915_run1.ZMW180290641_180554589.subreads.bam.1 k562_09.subreads.bam
+cp ./raw_data/DS76915_run1.ZMW18546864_23136760.subreads.bam.1   k562_10.subreads.bam
+cp ./raw_data/DS76915_run1.ZMW100599331_106037253.subreads.bam.1 k562_11.subreads.bam
 
 ## download human reference fasta file
 wget -c https://ftp.ensembl.org/pub/release-114/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
@@ -114,6 +129,48 @@ ft fire --extract --all test_fire.bam all.bed.gz
 ft extract test_fire_aligned.bam --m6a m6a.bed.gz
 
 ## PacBio BAM format specification: https://pacbiofileformats.readthedocs.io/en/latest/BAM.html#use-of-read-tags-for-per-read-base-base-modifications
+
+
+#-----------------------------------------------------------------------------------------------#
+## call_6mA_mapping
+sample=$1
+
+echo `date` $sample start
+
+## subreads -> ccs
+ccs -j 8 --hifi-kinetics $sample.subreads.bam $sample\_ccs.bam
+echo `date` "  " $sample ccs done
+
+## modify header
+samtools view -H $sample\_ccs.bam > $sample\_ccs_header.sam
+sed -i 's/101-717-300/101-789-500/g' $sample\_ccs_header.sam 
+samtools reheader $sample\_ccs_header.sam $sample\_ccs.bam > $sample\_ccs_reheader.bam
+echo `date` "  " $sample rehead done
+
+## call 6mA
+ft predict-m6a -t 8 -b 8 -k $sample\_ccs_reheader.bam $sample\_m6a.bam
+echo `date` "  " $sample 6mA_calling done
+
+## mapping
+pbmm2 align GRCh38.mmi $sample\_m6a.bam $sample\_m6a_aligned.bam --preset CCS --sort -j 8 -J 8
+echo `date` "  " $sample mapping done
+
+## remove tmp files
+rm $sample\_ccs_header.sam
+echo `date` "  " $sample all done
+#-----------------------------------------------------------------------------------------------#
+
+nohup ./call_6mA_mapping k562_00 > k562_00.log &  # 3216764
+nohup ./call_6mA_mapping k562_01 > k562_01.log &  # 3217952
+nohup ./call_6mA_mapping k562_02 > k562_02.log &  # 3218304
+nohup ./call_6mA_mapping k562_03 > k562_03.log &  # 3218461
+
+nohup ./call_6mA_mapping k562_04 > k562_04.log &  # 3298193
+nohup ./call_6mA_mapping k562_05 > k562_05.log &  # 3298246
+nohup ./call_6mA_mapping k562_06 > k562_06.log &  # 3298294
+nohup ./call_6mA_mapping k562_07 > k562_07.log &  # 3298358
+
+
 
 
 conda create -n Graph python=3.8
