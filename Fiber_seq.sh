@@ -64,6 +64,9 @@ nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304376/DS76915_run1.ZM
 nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304377/DS76915_run1.ZMW58525067_63767636.subreads.bam.1 > SRR11304377.log &    # 3438776
 nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304378/DS76915_run1.ZMW63767638_69009863.subreads.bam.1 > SRR11304378.log &    # 3438960
 nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304379/DS76915_run1.ZMW106037254_111543261.subreads.bam.1 > SRR11304379.log &  # 3439114
+
+# https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRX7909608&o=acc_s%3Aa
+
 # SRR11304380 -> SRR11304392 (TBC)
 
 cp ./raw_data/DS76915_run1.ZMW0_4588045.subreads.bam.1           k562_00.subreads.bam
