@@ -79,9 +79,16 @@ nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304390/DS76915_run1.ZM
 nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304391/DS76915_run1.ZMW134021308_139527337.subreads.bam.1 > SRR11304391.log &  # 3556703
 nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304392/DS76915_run1.ZMW13829432_18546863.subreads.bam.1 > SRR11304392.log &    # 3557231
 
-# https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRX7909608&o=acc_s%3Aa
 
-# SRR11304380 -> SRR11304392 (TBC)
+conda install beautifulsoup4
+conda install requests
+conda install conda-forge::requests-html
+conda install conda-forge::importlib_resources
+conda install selenium
+
+url = "https://trace.ncbi.nlm.nih.gov/Traces/?view=run_browser&acc=SRR11304393&display=data-access"
+
+
 
 cp ./raw_data/DS76915_run1.ZMW0_4588045.subreads.bam.1           k562_00.subreads.bam
 cp ./raw_data/DS76915_run1.ZMW139527343_144967719.subreads.bam.1 k562_01.subreads.bam
