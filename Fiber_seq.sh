@@ -65,6 +65,20 @@ nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304377/DS76915_run1.ZM
 nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304378/DS76915_run1.ZMW63767638_69009863.subreads.bam.1 > SRR11304378.log &    # 3438960
 nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304379/DS76915_run1.ZMW106037254_111543261.subreads.bam.1 > SRR11304379.log &  # 3439114
 
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304380/DS76915_run1.ZMW69009866_74253535.subreads.bam.1 > SRR11304380.log &    # 3555238
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304381/DS76915_run1.ZMW74253537_79497404.subreads.bam.1 > SRR11304381.log &    # 3555400
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304382/DS76915_run1.ZMW79497408_84740510.subreads.bam.1 > SRR11304382.log &    # 3555781
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304383/DS76915_run1.ZMW84740513_89982258.subreads.bam.1 > SRR11304383.log &    # 3555805
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304384/DS76915_run1.ZMW89982259_95291391.subreads.bam.1 > SRR11304384.log &    # 3555827
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304385/DS76915_run1.ZMW9176347_13829431.subreads.bam.1 > SRR11304385.log &     # 3555868
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304386/DS76915_run1.ZMW95291396_100599328.subreads.bam.1 > SRR11304386.log &   # 3555970
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304387/DS76915_run1.ZMW111543264_117179308.subreads.bam.1 > SRR11304387.log &  # 3556046
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304388/DS76915_run1.ZMW117179311_122815763.subreads.bam.1 > SRR11304388.log &  # 3556203
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304389/DS76915_run1.ZMW122815764_128450970.subreads.bam.1 > SRR11304389.log &  # 3556642
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304390/DS76915_run1.ZMW128450971_134021306.subreads.bam.1 > SRR11304390.log &  # 3556658
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304391/DS76915_run1.ZMW134021308_139527337.subreads.bam.1 > SRR11304391.log &  # 3556703
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304392/DS76915_run1.ZMW13829432_18546863.subreads.bam.1 > SRR11304392.log &    # 3557231
+
 # https://www.ncbi.nlm.nih.gov/Traces/study/?acc=SRX7909608&o=acc_s%3Aa
 
 # SRR11304380 -> SRR11304392 (TBC)
