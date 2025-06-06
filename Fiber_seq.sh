@@ -13,6 +13,9 @@ conda install -c bioconda samtools
 cd /fs/home/jiluzhang/softwares/miniconda3/envs/LRS/lib
 ln -s libcrypto.so.1.1 libcrypto.so.1.0.0
 
+## install bedtools
+conda install bioconda::bedtools
+
 ## pbmm2: A minimap2 SMRT wrapper for PacBio data: native PacBio data in -> native PacBio BAM out.
 ## SMRT: single-molecule, real-time
 conda install -c bioconda pbmm2
@@ -49,7 +52,19 @@ wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304365/DS76915_run1.ZMW17543
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304366/DS76915_run1.ZMW180290641_180554589.subreads.bam.1 
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304367/DS76915_run1.ZMW18546864_23136760.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304368/DS76915_run1.ZMW100599331_106037253.subreads.bam.1
-# SRR11304368 -> SRR11304392 (TBC)
+
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304369/DS76915_run1.ZMW23136761_27984214.subreads.bam.1 > SRR11304369.log &    # 3434523
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304370/DS76915_run1.ZMW27984219_32899121.subreads.bam.1 > SRR11304370.log &    # 3435071
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304371/DS76915_run1.ZMW32899123_37816548.subreads.bam.1 > SRR11304371.log &    # 3435229
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304372/DS76915_run1.ZMW37816551_42928753.subreads.bam.1 > SRR11304372.log &    # 3435468
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304373/DS76915_run1.ZMW42928754_48105718.subreads.bam.1 > SRR11304373.log &    # 3435625
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304374/DS76915_run1.ZMW4588049_9176345.subreads.bam.1 > SRR11304374.log &      # 3436003
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304375/DS76915_run1.ZMW48105720_53283186.subreads.bam.1 > SRR11304375.log &    # 3436297
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304376/DS76915_run1.ZMW53283188_58525065.subreads.bam.1 > SRR11304376.log &    # 3437155
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304377/DS76915_run1.ZMW58525067_63767636.subreads.bam.1 > SRR11304377.log &    # 3438776
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304378/DS76915_run1.ZMW63767638_69009863.subreads.bam.1 > SRR11304378.log &    # 3438960
+nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304379/DS76915_run1.ZMW106037254_111543261.subreads.bam.1 > SRR11304379.log &  # 3439114
+# SRR11304380 -> SRR11304392 (TBC)
 
 cp ./raw_data/DS76915_run1.ZMW0_4588045.subreads.bam.1           k562_00.subreads.bam
 cp ./raw_data/DS76915_run1.ZMW139527343_144967719.subreads.bam.1 k562_01.subreads.bam
@@ -127,6 +142,7 @@ ft fire --extract test_fire.bam fire.bed.gz
 ft fire --extract --all test_fire.bam all.bed.gz
 
 ft extract test_fire_aligned.bam --m6a m6a.bed.gz
+ft extract test_fire_aligned.bam --msp msp.bed.gz
 
 ## PacBio BAM format specification: https://pacbiofileformats.readthedocs.io/en/latest/BAM.html#use-of-read-tags-for-per-read-base-base-modifications
 
@@ -164,11 +180,24 @@ nohup ./call_6mA_mapping k562_00 > k562_00.log &  # 3216764
 nohup ./call_6mA_mapping k562_01 > k562_01.log &  # 3217952
 nohup ./call_6mA_mapping k562_02 > k562_02.log &  # 3218304
 nohup ./call_6mA_mapping k562_03 > k562_03.log &  # 3218461
-
 nohup ./call_6mA_mapping k562_04 > k562_04.log &  # 3298193
 nohup ./call_6mA_mapping k562_05 > k562_05.log &  # 3298246
 nohup ./call_6mA_mapping k562_06 > k562_06.log &  # 3298294
 nohup ./call_6mA_mapping k562_07 > k562_07.log &  # 3298358
+nohup ./call_6mA_mapping k562_08 > k562_08.log &  # 3319152
+nohup ./call_6mA_mapping k562_09 > k562_09.log &  # 3319207
+nohup ./call_6mA_mapping k562_10 > k562_10.log &  # 3319261
+nohup ./call_6mA_mapping k562_11 > k562_11.log &  # 3319347
+
+samtools merge -t 8 -o k562_00_to_11_m6a_aligned.bam k562_*_m6a_aligned.bam
+
+ft fire -t 8 k562_00_to_11_m6a_aligned.bam k562_00_to_11_fire.bam  # ~2.5 min
+# -t, --threads <THREADS>  Threads [default: 8]
+
+ft fire --extract k562_00_to_11_fire.bam k562_00_to_11_fire.bed.gz
+
+ft extract k562_00_to_11_fire.bam --m6a k562_00_to_11_m6a.bed.gz
+
 
 
 
@@ -182,23 +211,44 @@ conda install ipython
 
 ## https://www.aidoczh.com/igraph/generation.html
 
+
+
+
+awk '{if($1=="chr13" && $2>25164000 && $3<25176000) print $0}' human_cCREs.bed | awk '{print $0 "\t" "CRE_"NR}' > ccre.bed  # 23
+zcat k562_00_to_11_fire.bed.gz | awk '{if($1=="13" && $2>25164000 && $3<25176000) print "chr"$1 "\t" $2 "\t" $3 "\t" $4}' > fire.bed  # 108
+bedtools intersect -a ccre.bed -b fire.bed -wa -wb | head
+bedtools intersect -a ccre.bed -b fire.bed -wa -wb -loj | awk '{print $4 "\t" $8}' | uniq > ccre_fire.txt
+
+import pandas as pd
+import numpy as np
 import igraph as ig
 
-g = ig.Graph([(0,2), (1,2), (2,3)])
-g.vs["name"] = ["E1", "E2", "E3", "P1"]
-g.vs["label"] = g.vs["name"]
-g.es["weight"] = [1, 2, 3]
-ig.plot(g, 'test_graph.pdf', edge_width=g.es["weight"], bbox=(300, 300))
+ccre_fire = pd.read_table('ccre_fire.txt', header=None)
+ccre_fire.columns = ['cre', 'fire']
+fire_lst = ccre_fire['fire'].drop_duplicates().values
 
-m = np.array([[0, 2, 3, 0], [2, 0, 0, 4], [3, 0, 0, 1], [0, 4, 1, 0]])
+cre_lst = ccre_fire['cre'].drop_duplicates().values
+m = pd.DataFrame(np.zeros([len(cre_lst), len(cre_lst)]))
+m = m.astype(int)
+m.index = cre_lst
+m.columns = cre_lst
+
+for i in range(len(fire_lst)):
+    if fire_lst[i]!='.':
+        for idx in ccre_fire[ccre_fire['fire']==fire_lst[i]]['cre'].values:
+            for col in ccre_fire[ccre_fire['fire']==fire_lst[i]]['cre'].values:
+                if idx!=col:
+                    m.loc[idx, col] += 1
+m = np.array(m)
+# m[m<3] = 0 
 g = ig.Graph.Weighted_Adjacency(m, mode='undirected')
-g.vs["name"] = ["E1", "E2", "E3", "P1"]
+g.vs["name"] = cre_lst
 g.vs["label"] = g.vs["name"]
 row_indices, col_indices = np.triu_indices(m.shape[0], k=1)
 g.es["weight"] = [i for i in m[row_indices, col_indices] if i!=0]
 visual_style = {'edge_width':g.es['weight'],
                 'edge_label':g.es['weight']}
-ig.plot(g, 'test_graph.pdf', bbox=(300, 300), **visual_style)
+ig.plot(g, 'test_graph.pdf', bbox=(3000, 3000), **visual_style)
 
 
 
