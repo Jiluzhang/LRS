@@ -331,17 +331,18 @@ ft fire -t 8 k562_00_to_11_m6a_aligned.bam k562_00_to_11_fire.bam  # ~2.5 min
 
 ft fire --extract k562_00_to_11_fire.bam k562_00_to_11_fire.bed.gz
 
-ft fire -t 8 --min-msp-length-for-positive-fire-call 100 k562_00_to_11_m6a_aligned.bam k562_00_to_11_fire_tmp.bam --fdr-table .
-ft fire --extract k562_00_to_11_fire_tmp.bam k562_00_to_11_fire_tmp.bed.gz
-zcat k562_00_to_11_fire_tmp.bed.gz | awk '{if($1==13) print$0}' > k562_00_to_11_fire_chr13_tmp.bed
 
 samtools view -b k562_00_to_11_m6a_aligned.bam 13 > k562_00_to_11_m6a_aligned_chr13.bam
 ft fire -t 8 k562_00_to_11_m6a_aligned_chr13.bam k562_00_to_11_fire_chr13.bam
 ft fire --extract k562_00_to_11_fire_chr13.bam k562_00_to_11_fire_chr13.bed.gz
+zcat k562_00_to_11_fire_chr13.bed.gz | awk '{if($5<=10) print$0}' > k562_00_to_11_fire_chr13_10.bed
 
-ft fire -t 8 --width-bin 20 k562_00_to_11_m6a_aligned_chr13.bam k562_00_to_11_fire_chr13_tmp.bam
-ft fire --extract -F 100 k562_00_to_11_fire_chr13_tmp.bam k562_00_to_11_fire_chr13_tmp.bed.gz
-ft extract k562_00_to_11_fire_chr13_tmp.bam --msp k562_00_to_11_msp_chr13_tmp.bed.gz
+ft fire -t 8 --min-msp-length-for-positive-fire-call 50 k562_00_to_11_m6a_aligned_chr13.bam k562_00_to_11_fire_chr13_tmp.bam
+ft fire --extract k562_00_to_11_fire_chr13_tmp.bam k562_00_to_11_fire_chr13_tmp.bed.gz
+zcat k562_00_to_11_fire_chr13_tmp.bed.gz | awk '{if($5<=10) print$0}' > k562_00_to_11_fire_chr13_tmp_10.bed
+
+## too many FIREs -> too few FIREs???
+
 
 ft extract k562_00_to_11_fire.bam --m6a k562_00_to_11_m6a.bed.gz
 
