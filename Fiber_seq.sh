@@ -37,9 +37,8 @@ conda install -c bioconda pbccs
 # ascp -QT -l 300m -P 33001 -k 1 -i ~/.aspera/connect/etc/asperaweb_id_dsa.openssh \
 # era-fasp@fasp.sra.ebi.ac.uk:/vol1/fastq/SRR113/059/SRR11304359/SRR11304359_subreads.fastq.gz k562_test.fastq.gz
 
-wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304366/DS76915_run1.ZMW180290641_180554589.subreads.bam.1  # bam file (include kinetics info)
-wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304358/DS76915_run1.ZMW139527343_144967719.subreads.bam.1
 
+## GSM4411222	K562 Fiber-seq (500 U Hia5) rep1 run1  [36 files]
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304357/DS76915_run1.ZMW0_4588045.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304358/DS76915_run1.ZMW139527343_144967719.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304359/DS76915_run1.ZMW144967724_150276627.subreads.bam.1
@@ -52,94 +51,92 @@ wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304365/DS76915_run1.ZMW17543
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304366/DS76915_run1.ZMW180290641_180554589.subreads.bam.1 
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304367/DS76915_run1.ZMW18546864_23136760.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304368/DS76915_run1.ZMW100599331_106037253.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304369/DS76915_run1.ZMW23136761_27984214.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304370/DS76915_run1.ZMW27984219_32899121.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304371/DS76915_run1.ZMW32899123_37816548.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304372/DS76915_run1.ZMW37816551_42928753.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304373/DS76915_run1.ZMW42928754_48105718.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304374/DS76915_run1.ZMW4588049_9176345.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304375/DS76915_run1.ZMW48105720_53283186.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304376/DS76915_run1.ZMW53283188_58525065.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304377/DS76915_run1.ZMW58525067_63767636.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304378/DS76915_run1.ZMW63767638_69009863.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304379/DS76915_run1.ZMW106037254_111543261.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304380/DS76915_run1.ZMW69009866_74253535.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304381/DS76915_run1.ZMW74253537_79497404.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304382/DS76915_run1.ZMW79497408_84740510.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304383/DS76915_run1.ZMW84740513_89982258.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304384/DS76915_run1.ZMW89982259_95291391.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304385/DS76915_run1.ZMW9176347_13829431.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304386/DS76915_run1.ZMW95291396_100599328.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304387/DS76915_run1.ZMW111543264_117179308.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304388/DS76915_run1.ZMW117179311_122815763.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304389/DS76915_run1.ZMW122815764_128450970.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304390/DS76915_run1.ZMW128450971_134021306.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304391/DS76915_run1.ZMW134021308_139527337.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304392/DS76915_run1.ZMW13829432_18546863.subreads.bam.1
 
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304369/DS76915_run1.ZMW23136761_27984214.subreads.bam.1 > SRR11304369.log &    # 3434523
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304370/DS76915_run1.ZMW27984219_32899121.subreads.bam.1 > SRR11304370.log &    # 3435071
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304371/DS76915_run1.ZMW32899123_37816548.subreads.bam.1 > SRR11304371.log &    # 3435229
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304372/DS76915_run1.ZMW37816551_42928753.subreads.bam.1 > SRR11304372.log &    # 3435468
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304373/DS76915_run1.ZMW42928754_48105718.subreads.bam.1 > SRR11304373.log &    # 3435625
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304374/DS76915_run1.ZMW4588049_9176345.subreads.bam.1 > SRR11304374.log &      # 3436003
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304375/DS76915_run1.ZMW48105720_53283186.subreads.bam.1 > SRR11304375.log &    # 3436297
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304376/DS76915_run1.ZMW53283188_58525065.subreads.bam.1 > SRR11304376.log &    # 3437155
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304377/DS76915_run1.ZMW58525067_63767636.subreads.bam.1 > SRR11304377.log &    # 3438776
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304378/DS76915_run1.ZMW63767638_69009863.subreads.bam.1 > SRR11304378.log &    # 3438960
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304379/DS76915_run1.ZMW106037254_111543261.subreads.bam.1 > SRR11304379.log &  # 3439114
+## GSM4411223	K562 Fiber-seq (500 U Hia5) rep1 run2 [32 files]
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304393/DS76915_run2.ZMW100009546_105513461.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304394/DS76915_run2.ZMW138086402_143524054.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304395/DS76915_run2.ZMW143524055_148898671.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304396/DS76915_run2.ZMW148898675_154208538.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304397/DS76915_run2.ZMW154208540_159516274.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304398/DS76915_run2.ZMW159516275_164890484.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304399/DS76915_run2.ZMW164890489_170590940.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304400/DS76915_run2.ZMW170590942_176556862.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304401/DS76915_run2.ZMW176556865_180554585.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304402/DS76915_run2.ZMW18482772_24183322.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304403/DS76915_run2.ZMW24183323_29887193.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304404/DS76915_run2.ZMW105513462_110953881.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304405/DS76915_run2.ZMW29887196_35718918.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304406/DS76915_run2.ZMW35718922_41552461.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304407/DS76915_run2.ZMW41552462_47513677.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304408/DS76915_run2.ZMW47513682_53349027.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304409/DS76915_run2.ZMW53349030_59441810.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304410/DS76915_run2.ZMW59441811_65604203.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304411/DS76915_run2.ZMW65604208_71631799.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304412/DS76915_run2.ZMW6818240_12715107.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304413/DS76915_run2.ZMW71631801_77400528.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304414/DS76915_run2.ZMW77400529_83165637.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304415/DS76915_run2.ZMW10_6818239.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304416/DS76915_run2.ZMW83165639_88804092.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304417/DS76915_run2.ZMW88804097_94503336.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304418/DS76915_run2.ZMW94503337_100009545.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304419/DS76915_run2.ZMW110953883_116392454.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304420/DS76915_run2.ZMW116392456_121831554.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304421/DS76915_run2.ZMW121831555_127206734.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304422/DS76915_run2.ZMW12715110_18482771.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304423/DS76915_run2.ZMW127206736_132645796.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304424/DS76915_run2.ZMW132645797_138086400.subreads.bam.1
 
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304380/DS76915_run1.ZMW69009866_74253535.subreads.bam.1 > SRR11304380.log &    # 3555238
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304381/DS76915_run1.ZMW74253537_79497404.subreads.bam.1 > SRR11304381.log &    # 3555400
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304382/DS76915_run1.ZMW79497408_84740510.subreads.bam.1 > SRR11304382.log &    # 3555781
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304383/DS76915_run1.ZMW84740513_89982258.subreads.bam.1 > SRR11304383.log &    # 3555805
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304384/DS76915_run1.ZMW89982259_95291391.subreads.bam.1 > SRR11304384.log &    # 3555827
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304385/DS76915_run1.ZMW9176347_13829431.subreads.bam.1 > SRR11304385.log &     # 3555868
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304386/DS76915_run1.ZMW95291396_100599328.subreads.bam.1 > SRR11304386.log &   # 3555970
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304387/DS76915_run1.ZMW111543264_117179308.subreads.bam.1 > SRR11304387.log &  # 3556046
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304388/DS76915_run1.ZMW117179311_122815763.subreads.bam.1 > SRR11304388.log &  # 3556203
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304389/DS76915_run1.ZMW122815764_128450970.subreads.bam.1 > SRR11304389.log &  # 3556642
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304390/DS76915_run1.ZMW128450971_134021306.subreads.bam.1 > SRR11304390.log &  # 3556658
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304391/DS76915_run1.ZMW134021308_139527337.subreads.bam.1 > SRR11304391.log &  # 3556703
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304392/DS76915_run1.ZMW13829432_18546863.subreads.bam.1 > SRR11304392.log &    # 3557231
-
-
-GSM4411223: K562 Fiber-seq (500 U Hia5) rep1 run2; Homo sapiens; OTHER (SRR11304424)
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304395/DS76915_run2.ZMW143524055_148898671.subreads.bam.1 > SRR11304395.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304396/DS76915_run2.ZMW148898675_154208538.subreads.bam.1 > SRR11304396.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304397/DS76915_run2.ZMW154208540_159516274.subreads.bam.1 > SRR11304397.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304398/DS76915_run2.ZMW159516275_164890484.subreads.bam.1 > SRR11304398.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304399/DS76915_run2.ZMW164890489_170590940.subreads.bam.1 > SRR11304399.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304400/DS76915_run2.ZMW170590942_176556862.subreads.bam.1 > SRR11304400.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304401/DS76915_run2.ZMW176556865_180554585.subreads.bam.1 > SRR11304401.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304402/DS76915_run2.ZMW18482772_24183322.subreads.bam.1 > SRR11304402.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304403/DS76915_run2.ZMW24183323_29887193.subreads.bam.1 > SRR11304403.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304404/DS76915_run2.ZMW105513462_110953881.subreads.bam.1 > SRR11304404.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304405/DS76915_run2.ZMW29887196_35718918.subreads.bam.1 > SRR11304405.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304406/DS76915_run2.ZMW35718922_41552461.subreads.bam.1 > SRR11304406.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304407/DS76915_run2.ZMW41552462_47513677.subreads.bam.1 > SRR11304407.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304408/DS76915_run2.ZMW47513682_53349027.subreads.bam.1 > SRR11304408.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304409/DS76915_run2.ZMW53349030_59441810.subreads.bam.1 > SRR11304409.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304410/DS76915_run2.ZMW59441811_65604203.subreads.bam.1 > SRR11304410.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304411/DS76915_run2.ZMW65604208_71631799.subreads.bam.1 > SRR11304411.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304412/DS76915_run2.ZMW6818240_12715107.subreads.bam.1 > SRR11304412.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304413/DS76915_run2.ZMW71631801_77400528.subreads.bam.1 > SRR11304413.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304414/DS76915_run2.ZMW77400529_83165637.subreads.bam.1 > SRR11304414.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304415/DS76915_run2.ZMW10_6818239.subreads.bam.1 > SRR11304415.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304416/DS76915_run2.ZMW83165639_88804092.subreads.bam.1 > SRR11304416.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304417/DS76915_run2.ZMW88804097_94503336.subreads.bam.1 > SRR11304417.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304418/DS76915_run2.ZMW94503337_100009545.subreads.bam.1 > SRR11304418.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304419/DS76915_run2.ZMW110953883_116392454.subreads.bam.1 > SRR11304419.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304420/DS76915_run2.ZMW116392456_121831554.subreads.bam.1 > SRR11304420.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304421/DS76915_run2.ZMW121831555_127206734.subreads.bam.1 > SRR11304421.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304422/DS76915_run2.ZMW12715110_18482771.subreads.bam.1 > SRR11304422.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304423/DS76915_run2.ZMW127206736_132645796.subreads.bam.1 > SRR11304423.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304424/DS76915_run2.ZMW132645797_138086400.subreads.bam.1 > SRR11304424.log &
-
-
-GSM4411224: K562 Fiber-seq (500 U Hia5) rep2; Homo sapiens; OTHER (SRR11304450)
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304425/DS76916.ZMW103942438_111019436.subreads.bam.1 > SRR11304425.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304426/DS76916.ZMW160826387_167706813.subreads.bam.1 > SRR11304426.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304427/DS76916.ZMW167706820_174589296.subreads.bam.1 > SRR11304427.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304428/DS76916.ZMW174589298_180554587.subreads.bam.1 > SRR11304428.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304429/DS76916.ZMW1_7931776.subreads.bam.1 > SRR11304429.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304430/DS76916.ZMW21629276_28445116.subreads.bam.1 > SRR11304430.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304431/DS76916.ZMW28445132_35324206.subreads.bam.1 > SRR11304431.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304432/DS76916.ZMW35324210_42206790.subreads.bam.1 > SRR11304432.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304433/DS76916.ZMW42206791_49153137.subreads.bam.1 > SRR11304433.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304434/DS76916.ZMW49153143_56035198.subreads.bam.1 > SRR11304434.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304435/DS76916.ZMW56035200_62916042.subreads.bam.1 > SRR11304435.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304436/DS76916.ZMW111019438_118228349.subreads.bam.1 > SRR11304436.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304437/DS76916.ZMW62916044_69730699.subreads.bam.1 > SRR11304437.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304438/DS76916.ZMW69730701_76417543.subreads.bam.1 > SRR11304438.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304439/DS76916.ZMW76417544_83167207.subreads.bam.1 > SRR11304439.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304440/DS76916.ZMW7931779_14943118.subreads.bam.1 > SRR11304440.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304441/DS76916.ZMW83167219_90046717.subreads.bam.1 > SRR11304441.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304442/DS76916.ZMW90046719_96993846.subreads.bam.1 > SRR11304442.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304443/DS76916.ZMW96993849_103942437.subreads.bam.1 > SRR11304443.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304444/DS76916.ZMW118228351_125438227.subreads.bam.1 > SRR11304444.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304445/DS76916.ZMW125438230_132581806.subreads.bam.1 > SRR11304445.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304446/DS76916.ZMW132581807_139856110.subreads.bam.1 > SRR11304446.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304447/DS76916.ZMW139856111_147064353.subreads.bam.1 > SRR11304447.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304448/DS76916.ZMW147064355_154075316.subreads.bam.1 > SRR11304448.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304449/DS76916.ZMW14943119_21629275.subreads.bam.1 > SRR11304449.log &
-nohup wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304450/DS76916.ZMW154075317_160826386.subreads.bam.1 > SRR11304450.log &
+## GSM4411224	K562 Fiber-seq (500 U Hia5) rep2 [26 files]
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304425/DS76916.ZMW103942438_111019436.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304426/DS76916.ZMW160826387_167706813.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304427/DS76916.ZMW167706820_174589296.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304428/DS76916.ZMW174589298_180554587.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304429/DS76916.ZMW1_7931776.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304430/DS76916.ZMW21629276_28445116.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304431/DS76916.ZMW28445132_35324206.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304432/DS76916.ZMW35324210_42206790.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304433/DS76916.ZMW42206791_49153137.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304434/DS76916.ZMW49153143_56035198.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304435/DS76916.ZMW56035200_62916042.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304436/DS76916.ZMW111019438_118228349.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304437/DS76916.ZMW62916044_69730699.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304438/DS76916.ZMW69730701_76417543.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304439/DS76916.ZMW76417544_83167207.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304440/DS76916.ZMW7931779_14943118.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304441/DS76916.ZMW83167219_90046717.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304442/DS76916.ZMW90046719_96993846.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304443/DS76916.ZMW96993849_103942437.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304444/DS76916.ZMW118228351_125438227.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304445/DS76916.ZMW125438230_132581806.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304446/DS76916.ZMW132581807_139856110.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304447/DS76916.ZMW139856111_147064353.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304448/DS76916.ZMW147064355_154075316.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304449/DS76916.ZMW14943119_21629275.subreads.bam.1
+wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304450/DS76916.ZMW154075317_160826386.subreads.bam.1
 
 
 
