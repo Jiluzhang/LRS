@@ -43,182 +43,224 @@ wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304357/DS76915_run1.ZMW0_458
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304358/DS76915_run1.ZMW139527343_144967719.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304359/DS76915_run1.ZMW144967724_150276627.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304360/DS76915_run1.ZMW150276628_155517675.subreads.bam.1
+samtools merge -@ 4 -o k562_rep1_run1_1.bam DS76915_run1.ZMW0_4588045.subreads.bam.1 \
+                                            DS76915_run1.ZMW139527343_144967719.subreads.bam.1 \
+                                            DS76915_run1.ZMW144967724_150276627.subreads.bam.1 \
+                                            DS76915_run1.ZMW150276628_155517675.subreads.bam.1
+                                            
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304361/DS76915_run1.ZMW155517676_160500284.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304362/DS76915_run1.ZMW160500285_165479819.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304363/DS76915_run1.ZMW165479825_170525518.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304364/DS76915_run1.ZMW170525519_175439978.subreads.bam.1
+samtools merge -@ 4 -o k562_rep1_run1_2.bam DS76915_run1.ZMW155517676_160500284.subreads.bam.1 \
+                                            DS76915_run1.ZMW160500285_165479819.subreads.bam.1 \
+                                            DS76915_run1.ZMW165479825_170525518.subreads.bam.1 \
+                                            DS76915_run1.ZMW170525519_175439978.subreads.bam.1
+                                            
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304365/DS76915_run1.ZMW175439980_180290639.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304366/DS76915_run1.ZMW180290641_180554589.subreads.bam.1 
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304367/DS76915_run1.ZMW18546864_23136760.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304368/DS76915_run1.ZMW100599331_106037253.subreads.bam.1
+samtools merge -@ 4 -o k562_rep1_run1_3.bam DS76915_run1.ZMW175439980_180290639.subreads.bam.1 \
+                                            DS76915_run1.ZMW180290641_180554589.subreads.bam.1 \
+                                            DS76915_run1.ZMW18546864_23136760.subreads.bam.1 \
+                                            DS76915_run1.ZMW100599331_106037253.subreads.bam.1
+                                            
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304369/DS76915_run1.ZMW23136761_27984214.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304370/DS76915_run1.ZMW27984219_32899121.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304371/DS76915_run1.ZMW32899123_37816548.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304372/DS76915_run1.ZMW37816551_42928753.subreads.bam.1
+samtools merge -@ 4 -o k562_rep1_run1_4.bam DS76915_run1.ZMW23136761_27984214.subreads.bam.1 \
+                                            DS76915_run1.ZMW27984219_32899121.subreads.bam.1 \
+                                            DS76915_run1.ZMW32899123_37816548.subreads.bam.1 \
+                                            DS76915_run1.ZMW37816551_42928753.subreads.bam.1
+
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304373/DS76915_run1.ZMW42928754_48105718.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304374/DS76915_run1.ZMW4588049_9176345.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304375/DS76915_run1.ZMW48105720_53283186.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304376/DS76915_run1.ZMW53283188_58525065.subreads.bam.1
+samtools merge -@ 4 -o k562_rep1_run1_5.bam DS76915_run1.ZMW42928754_48105718.subreads.bam.1 \
+                                            DS76915_run1.ZMW4588049_9176345.subreads.bam.1 \
+                                            DS76915_run1.ZMW48105720_53283186.subreads.bam.1 \
+                                            DS76915_run1.ZMW53283188_58525065.subreads.bam.1
+
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304377/DS76915_run1.ZMW58525067_63767636.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304378/DS76915_run1.ZMW63767638_69009863.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304379/DS76915_run1.ZMW106037254_111543261.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304380/DS76915_run1.ZMW69009866_74253535.subreads.bam.1
+samtools merge -@ 4 -o k562_rep1_run1_6.bam DS76915_run1.ZMW58525067_63767636.subreads.bam.1 \
+                                            DS76915_run1.ZMW63767638_69009863.subreads.bam.1 \
+                                            DS76915_run1.ZMW106037254_111543261.subreads.bam.1 \
+                                            DS76915_run1.ZMW69009866_74253535.subreads.bam.1
+
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304381/DS76915_run1.ZMW74253537_79497404.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304382/DS76915_run1.ZMW79497408_84740510.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304383/DS76915_run1.ZMW84740513_89982258.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304384/DS76915_run1.ZMW89982259_95291391.subreads.bam.1
+samtools merge -@ 4 -o k562_rep1_run1_7.bam DS76915_run1.ZMW74253537_79497404.subreads.bam.1 \
+                                            DS76915_run1.ZMW79497408_84740510.subreads.bam.1 \
+                                            DS76915_run1.ZMW84740513_89982258.subreads.bam.1 \
+                                            DS76915_run1.ZMW89982259_95291391.subreads.bam.1
+
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304385/DS76915_run1.ZMW9176347_13829431.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304386/DS76915_run1.ZMW95291396_100599328.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304387/DS76915_run1.ZMW111543264_117179308.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304388/DS76915_run1.ZMW117179311_122815763.subreads.bam.1
+samtools merge -@ 4 -o k562_rep1_run1_8.bam DS76915_run1.ZMW9176347_13829431.subreads.bam.1 \
+                                            DS76915_run1.ZMW95291396_100599328.subreads.bam.1 \
+                                            DS76915_run1.ZMW111543264_117179308.subreads.bam.1 \
+                                            DS76915_run1.ZMW117179311_122815763.subreads.bam.1
+
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304389/DS76915_run1.ZMW122815764_128450970.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304390/DS76915_run1.ZMW128450971_134021306.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304391/DS76915_run1.ZMW134021308_139527337.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304392/DS76915_run1.ZMW13829432_18546863.subreads.bam.1
+samtools merge -@ 4 -o k562_rep1_run1_9.bam DS76915_run1.ZMW122815764_128450970.subreads.bam.1 \
+                                            DS76915_run1.ZMW128450971_134021306.subreads.bam.1 \
+                                            DS76915_run1.ZMW134021308_139527337.subreads.bam.1 \
+                                            DS76915_run1.ZMW13829432_18546863.subreads.bam.1
+
 
 ## GSM4411223	K562 Fiber-seq (500 U Hia5) rep1 run2 [32 files]
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304393/DS76915_run2.ZMW100009546_105513461.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304394/DS76915_run2.ZMW138086402_143524054.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304395/DS76915_run2.ZMW143524055_148898671.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304396/DS76915_run2.ZMW148898675_154208538.subreads.bam.1
+samtools merge -@ 4 -o k562_rep1_run2_1.bam DS76915_run2.ZMW100009546_105513461.subreads.bam.1 \
+                                            DS76915_run2.ZMW138086402_143524054.subreads.bam.1 \
+                                            DS76915_run2.ZMW143524055_148898671.subreads.bam.1 \
+                                            DS76915_run2.ZMW148898675_154208538.subreads.bam.1
+
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304397/DS76915_run2.ZMW154208540_159516274.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304398/DS76915_run2.ZMW159516275_164890484.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304399/DS76915_run2.ZMW164890489_170590940.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304400/DS76915_run2.ZMW170590942_176556862.subreads.bam.1
+samtools merge -@ 4 -o k562_rep1_run2_2.bam DS76915_run2.ZMW154208540_159516274.subreads.bam.1 \
+                                            DS76915_run2.ZMW159516275_164890484.subreads.bam.1 \
+                                            DS76915_run2.ZMW164890489_170590940.subreads.bam.1 \
+                                            DS76915_run2.ZMW170590942_176556862.subreads.bam.1
+
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304401/DS76915_run2.ZMW176556865_180554585.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304402/DS76915_run2.ZMW18482772_24183322.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304403/DS76915_run2.ZMW24183323_29887193.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304404/DS76915_run2.ZMW105513462_110953881.subreads.bam.1
+samtools merge -@ 4 -o k562_rep1_run2_3.bam DS76915_run2.ZMW176556865_180554585.subreads.bam.1 \
+                                            DS76915_run2.ZMW18482772_24183322.subreads.bam.1 \
+                                            DS76915_run2.ZMW24183323_29887193.subreads.bam.1 \
+                                            DS76915_run2.ZMW105513462_110953881.subreads.bam.1
+
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304405/DS76915_run2.ZMW29887196_35718918.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304406/DS76915_run2.ZMW35718922_41552461.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304407/DS76915_run2.ZMW41552462_47513677.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304408/DS76915_run2.ZMW47513682_53349027.subreads.bam.1
+samtools merge -@ 4 -o k562_rep1_run2_4.bam DS76915_run2.ZMW29887196_35718918.subreads.bam.1 \
+                                            DS76915_run2.ZMW35718922_41552461.subreads.bam.1 \
+                                            DS76915_run2.ZMW41552462_47513677.subreads.bam.1 \
+                                            DS76915_run2.ZMW47513682_53349027.subreads.bam.1
+
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304409/DS76915_run2.ZMW53349030_59441810.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304410/DS76915_run2.ZMW59441811_65604203.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304411/DS76915_run2.ZMW65604208_71631799.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304412/DS76915_run2.ZMW6818240_12715107.subreads.bam.1
+samtools merge -@ 4 -o k562_rep1_run2_5.bam DS76915_run2.ZMW53349030_59441810.subreads.bam.1 \
+                                            DS76915_run2.ZMW59441811_65604203.subreads.bam.1 \
+                                            DS76915_run2.ZMW65604208_71631799.subreads.bam.1 \
+                                            DS76915_run2.ZMW6818240_12715107.subreads.bam.1
+
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304413/DS76915_run2.ZMW71631801_77400528.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304414/DS76915_run2.ZMW77400529_83165637.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304415/DS76915_run2.ZMW10_6818239.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304416/DS76915_run2.ZMW83165639_88804092.subreads.bam.1
+samtools merge -@ 4 -o k562_rep1_run2_6.bam DS76915_run2.ZMW71631801_77400528.subreads.bam.1 \
+                                            DS76915_run2.ZMW77400529_83165637.subreads.bam.1 \
+                                            DS76915_run2.ZMW10_6818239.subreads.bam.1 \
+                                            DS76915_run2.ZMW83165639_88804092.subreads.bam.1
+
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304417/DS76915_run2.ZMW88804097_94503336.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304418/DS76915_run2.ZMW94503337_100009545.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304419/DS76915_run2.ZMW110953883_116392454.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304420/DS76915_run2.ZMW116392456_121831554.subreads.bam.1
+samtools merge -@ 4 -o k562_rep1_run2_7.bam DS76915_run2.ZMW88804097_94503336.subreads.bam.1 \
+                                            DS76915_run2.ZMW94503337_100009545.subreads.bam.1 \
+                                            DS76915_run2.ZMW110953883_116392454.subreads.bam.1 \
+                                            DS76915_run2.ZMW116392456_121831554.subreads.bam.1
+
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304421/DS76915_run2.ZMW121831555_127206734.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304422/DS76915_run2.ZMW12715110_18482771.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304423/DS76915_run2.ZMW127206736_132645796.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304424/DS76915_run2.ZMW132645797_138086400.subreads.bam.1
+samtools merge -@ 4 -o k562_rep1_run2_8.bam DS76915_run2.ZMW121831555_127206734.subreads.bam.1 \
+                                            DS76915_run2.ZMW12715110_18482771.subreads.bam.1 \
+                                            DS76915_run2.ZMW127206736_132645796.subreads.bam.1 \
+                                            DS76915_run2.ZMW132645797_138086400.subreads.bam.1
+
 
 ## GSM4411224	K562 Fiber-seq (500 U Hia5) rep2 [26 files]
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304425/DS76916.ZMW103942438_111019436.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304426/DS76916.ZMW160826387_167706813.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304427/DS76916.ZMW167706820_174589296.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304428/DS76916.ZMW174589298_180554587.subreads.bam.1
+samtools merge -@ 4 -o k562_rep2_1.bam DS76916.ZMW103942438_111019436.subreads.bam.1 \
+                                       DS76916.ZMW160826387_167706813.subreads.bam.1 \
+                                       DS76916.ZMW167706820_174589296.subreads.bam.1 \
+                                       DS76916.ZMW174589298_180554587.subreads.bam.1
+
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304429/DS76916.ZMW1_7931776.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304430/DS76916.ZMW21629276_28445116.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304431/DS76916.ZMW28445132_35324206.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304432/DS76916.ZMW35324210_42206790.subreads.bam.1
+samtools merge -@ 4 -o k562_rep2_2.bam DS76916.ZMW1_7931776.subreads.bam.1 \
+                                       DS76916.ZMW21629276_28445116.subreads.bam.1 \
+                                       DS76916.ZMW28445132_35324206.subreads.bam.1 \
+                                       DS76916.ZMW35324210_42206790.subreads.bam.1
+
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304433/DS76916.ZMW42206791_49153137.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304434/DS76916.ZMW49153143_56035198.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304435/DS76916.ZMW56035200_62916042.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304436/DS76916.ZMW111019438_118228349.subreads.bam.1
+samtools merge -@ 4 -o k562_rep2_3.bam DS76916.ZMW42206791_49153137.subreads.bam.1 \
+                                       DS76916.ZMW49153143_56035198.subreads.bam.1 \
+                                       DS76916.ZMW56035200_62916042.subreads.bam.1 \
+                                       DS76916.ZMW111019438_118228349.subreads.bam.1
+
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304437/DS76916.ZMW62916044_69730699.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304438/DS76916.ZMW69730701_76417543.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304439/DS76916.ZMW76417544_83167207.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304440/DS76916.ZMW7931779_14943118.subreads.bam.1
+samtools merge -@ 4 -o k562_rep2_4.bam DS76916.ZMW62916044_69730699.subreads.bam.1 \
+                                       DS76916.ZMW69730701_76417543.subreads.bam.1 \
+                                       DS76916.ZMW76417544_83167207.subreads.bam.1 \
+                                       DS76916.ZMW7931779_14943118.subreads.bam.1
+
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304441/DS76916.ZMW83167219_90046717.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304442/DS76916.ZMW90046719_96993846.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304443/DS76916.ZMW96993849_103942437.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304444/DS76916.ZMW118228351_125438227.subreads.bam.1
+samtools merge -@ 4 -o k562_rep2_5.bam DS76916.ZMW83167219_90046717.subreads.bam.1 \
+                                       DS76916.ZMW90046719_96993846.subreads.bam.1 \
+                                       DS76916.ZMW96993849_103942437.subreads.bam.1 \
+                                       DS76916.ZMW118228351_125438227.subreads.bam.1
+
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304445/DS76916.ZMW125438230_132581806.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304446/DS76916.ZMW132581807_139856110.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304447/DS76916.ZMW139856111_147064353.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304448/DS76916.ZMW147064355_154075316.subreads.bam.1
+samtools merge -@ 4 -o k562_rep2_6.bam DS76916.ZMW125438230_132581806.subreads.bam.1 \
+                                       DS76916.ZMW132581807_139856110.subreads.bam.1 \
+                                       DS76916.ZMW139856111_147064353.subreads.bam.1 \
+                                       DS76916.ZMW147064355_154075316.subreads.bam.1
+
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304449/DS76916.ZMW14943119_21629275.subreads.bam.1
 wget -c https://sra-pub-src-2.s3.amazonaws.com/SRR11304450/DS76916.ZMW154075317_160826386.subreads.bam.1
-
-
-
-cp ./raw_data/DS76915_run1.ZMW0_4588045.subreads.bam.1           k562_00.subreads.bam
-cp ./raw_data/DS76915_run1.ZMW139527343_144967719.subreads.bam.1 k562_01.subreads.bam
-cp ./raw_data/DS76915_run1.ZMW144967724_150276627.subreads.bam.1 k562_02.subreads.bam
-cp ./raw_data/DS76915_run1.ZMW150276628_155517675.subreads.bam.1 k562_03.subreads.bam
-cp ./raw_data/DS76915_run1.ZMW155517676_160500284.subreads.bam.1 k562_04.subreads.bam
-cp ./raw_data/DS76915_run1.ZMW160500285_165479819.subreads.bam.1 k562_05.subreads.bam
-cp ./raw_data/DS76915_run1.ZMW165479825_170525518.subreads.bam.1 k562_06.subreads.bam
-cp ./raw_data/DS76915_run1.ZMW170525519_175439978.subreads.bam.1 k562_07.subreads.bam
-cp ./raw_data/DS76915_run1.ZMW175439980_180290639.subreads.bam.1 k562_08.subreads.bam
-cp ./raw_data/DS76915_run1.ZMW180290641_180554589.subreads.bam.1 k562_09.subreads.bam
-cp ./raw_data/DS76915_run1.ZMW18546864_23136760.subreads.bam.1   k562_10.subreads.bam
-cp ./raw_data/DS76915_run1.ZMW100599331_106037253.subreads.bam.1 k562_11.subreads.bam
+samtools merge -@ 2 -o k562_rep2_7.bam DS76916.ZMW14943119_21629275.subreads.bam.1 \
+                                       DS76916.ZMW154075317_160826386.subreads.bam.1
 
 ## download human reference fasta file
 wget -c https://ftp.ensembl.org/pub/release-114/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
 
-## alignment
-# pbmm2 index /fs/home/jiluzhang/LRS/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz GRCh38.mmi --preset CCS
-# cp DS76915_run1.ZMW180290641_180554589.subreads.bam.1 test_raw.bam
-# pbmm2 align GRCh38.mmi test_raw.bam test.bam --preset CCS --sort -j 4 -J 2
-# # -j,--num-threads           INT    Number of threads to use, 0 means autodetection. [0]
-# # -J,--sort-threads          INT    Number of threads used for sorting; 0 means 25% of -j, maximum 8. [0]
-
-# ft predict-m6a -t 4 -b 2 -k test.bam test_m6a.bam
-# # -t, --threads <THREADS>  Threads [default: 8]
-# # -b, --batch-size <BATCH_SIZE>                  Number of reads to include in batch prediction [default: 1]
-# # -k, --keep                                                     Keep hifi kinetics data
-# BINDINGKIT is not consistent (change to jasmine)
-
-cp raw_data/DS76915_run1.ZMW180290641_180554589.subreads.bam.1 test_raw.bam
-# <movie_name>/<zmw>/<subread_number>
-
-## https://ccs.how/
-ccs -j 8 --hifi-kinetics test_raw.bam test_ccs.bam
-# -j,--num-threads          INT    Number of threads to use, 0 means autodetection. [0]
-# --all-kinetics                   Calculate mean pulse widths (PW) and interpulse durations (IPD) for every ZMW.
-# --hifi-kinetics                  Calculate mean pulse widths (PW) and interpulse durations (IPD) for every HiFi read.
-## output: test_ccs.bam  test_ccs.bam.pbi  test_ccs.ccs_report.txt  test_ccs.zmw_metrics.json.gz
-# ZMWs pass filters        : 1601 (26.37%)
-
-# ## https://github.com/PacificBiosciences/jasmine
-# jasmine --keep-kinetics -j 8 test_ccs.bam test_m6a.bam  # seems can not call 6mA (MM:Z:C+m?)  (change to ipdSummary)
-# # --keep-kinetics            Keep kinetics tracks 'fi', 'fp', 'fn', 'ri', 'rp' and 'rn'.
-# # -j,--num-threads     INT   Number of threads to use, 0 means autodetection. [0]
-
-## ipdSummary: https://github.com/PacificBiosciences/kineticsTools/blob/master/kineticsTools/ipdSummary.py
-# not output bam file with MM and ML tags (change to fibertools)
-
-## change BINDINGKIT to the closest one
-samtools view -H test_ccs.bam > test_ccs_header.sam
-# 101-789-500
-# 101-820-500
-# 101-894-200
-# 102-194-200
-# 102-194-100
-# 102-739-100
-# 103-426-500
-# 101-717-300 -> 101-789-500
-samtools reheader test_ccs_header.sam test_ccs.bam > test_ccs_reheader.bam
-
-ft predict-m6a -t 4 -b 2 -k test_ccs_reheader.bam test_m6a.bam
-# -t, --threads <THREADS>  Threads [default: 8]
-# -b, --batch-size <BATCH_SIZE>                  Number of reads to include in batch prediction [default: 1]
-# -k, --keep                                                     Keep hifi kinetics data
-
-ft fire test_m6a.bam test_fire.bam
-
+## create index
 pbmm2 index /fs/home/jiluzhang/LRS/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz GRCh38.mmi --preset CCS
-pbmm2 align GRCh38.mmi test_fire.bam test_fire_aligned.bam --preset CCS --sort -j 4 -J 2
-# # -j,--num-threads           INT    Number of threads to use, 0 means autodetection. [0]
-# # -J,--sort-threads          INT    Number of threads used for sorting; 0 means 25% of -j, maximum 8. [0]
 
-ft fire --extract test_fire.bam fire.bed.gz
-ft fire --extract --all test_fire.bam all.bed.gz
-
-ft extract test_fire_aligned.bam --m6a m6a.bed.gz
-ft extract test_fire_aligned.bam --msp msp.bed.gz
-
-## PacBio BAM format specification: https://pacbiofileformats.readthedocs.io/en/latest/BAM.html#use-of-read-tags-for-per-read-base-base-modifications
 
 
 #-----------------------------------------------------------------------------------------------#
@@ -228,7 +270,7 @@ sample=$1
 echo `date` $sample start
 
 ## subreads -> ccs
-ccs -j 8 --hifi-kinetics $sample.subreads.bam $sample\_ccs.bam
+ccs -j 8 --hifi-kinetics $sample.bam $sample\_ccs.bam
 echo `date` "  " $sample ccs done
 
 ## modify header
@@ -250,7 +292,7 @@ rm $sample\_ccs_header.sam
 echo `date` "  " $sample all done
 #-----------------------------------------------------------------------------------------------#
 
-nohup ./call_6mA_mapping k562_00 > k562_00.log &  # 3216764
+nohup ./call_6mA_mapping k562_rep1_run1_1 > k562_rep1_run1_1.log &  # 3216764
 nohup ./call_6mA_mapping k562_01 > k562_01.log &  # 3217952
 nohup ./call_6mA_mapping k562_02 > k562_02.log &  # 3218304
 nohup ./call_6mA_mapping k562_03 > k562_03.log &  # 3218461
@@ -343,3 +385,64 @@ ig.plot(g, 'test_graph.pdf', bbox=(3000, 3000), **visual_style)
 
 # cargo install --all-features fibertools-rs
 #---------------------------------------------------------------------------------------------------------------------------------#
+
+## alignment
+# pbmm2 index /fs/home/jiluzhang/LRS/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz GRCh38.mmi --preset CCS
+# cp DS76915_run1.ZMW180290641_180554589.subreads.bam.1 test_raw.bam
+# pbmm2 align GRCh38.mmi test_raw.bam test.bam --preset CCS --sort -j 4 -J 2
+# # -j,--num-threads           INT    Number of threads to use, 0 means autodetection. [0]
+# # -J,--sort-threads          INT    Number of threads used for sorting; 0 means 25% of -j, maximum 8. [0]
+
+# ft predict-m6a -t 4 -b 2 -k test.bam test_m6a.bam
+# # -t, --threads <THREADS>  Threads [default: 8]
+# # -b, --batch-size <BATCH_SIZE>                  Number of reads to include in batch prediction [default: 1]
+# # -k, --keep                                                     Keep hifi kinetics data
+# BINDINGKIT is not consistent (change to jasmine)
+
+## https://ccs.how/
+# ccs -j 8 --hifi-kinetics test_raw.bam test_ccs.bam
+# -j,--num-threads          INT    Number of threads to use, 0 means autodetection. [0]
+# --all-kinetics                   Calculate mean pulse widths (PW) and interpulse durations (IPD) for every ZMW.
+# --hifi-kinetics                  Calculate mean pulse widths (PW) and interpulse durations (IPD) for every HiFi read.
+## output: test_ccs.bam  test_ccs.bam.pbi  test_ccs.ccs_report.txt  test_ccs.zmw_metrics.json.gz
+# ZMWs pass filters        : 1601 (26.37%)
+
+# ## https://github.com/PacificBiosciences/jasmine
+# jasmine --keep-kinetics -j 8 test_ccs.bam test_m6a.bam  # seems can not call 6mA (MM:Z:C+m?)  (change to ipdSummary)
+# # --keep-kinetics            Keep kinetics tracks 'fi', 'fp', 'fn', 'ri', 'rp' and 'rn'.
+# # -j,--num-threads     INT   Number of threads to use, 0 means autodetection. [0]
+
+## ipdSummary: https://github.com/PacificBiosciences/kineticsTools/blob/master/kineticsTools/ipdSummary.py
+# not output bam file with MM and ML tags (change to fibertools)
+
+## change BINDINGKIT to the closest one
+# samtools view -H test_ccs.bam > test_ccs_header.sam
+# 101-789-500
+# 101-820-500
+# 101-894-200
+# 102-194-200
+# 102-194-100
+# 102-739-100
+# 103-426-500
+# 101-717-300 -> 101-789-500
+# samtools reheader test_ccs_header.sam test_ccs.bam > test_ccs_reheader.bam
+
+# ft predict-m6a -t 4 -b 2 -k test_ccs_reheader.bam test_m6a.bam
+# -t, --threads <THREADS>  Threads [default: 8]
+# -b, --batch-size <BATCH_SIZE>                  Number of reads to include in batch prediction [default: 1]
+# -k, --keep                                                     Keep hifi kinetics data
+
+# ft fire test_m6a.bam test_fire.bam
+
+# pbmm2 index /fs/home/jiluzhang/LRS/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz GRCh38.mmi --preset CCS
+# pbmm2 align GRCh38.mmi test_fire.bam test_fire_aligned.bam --preset CCS --sort -j 4 -J 2
+# # -j,--num-threads           INT    Number of threads to use, 0 means autodetection. [0]
+# # -J,--sort-threads          INT    Number of threads used for sorting; 0 means 25% of -j, maximum 8. [0]
+
+# ft fire --extract test_fire.bam fire.bed.gz
+# ft fire --extract --all test_fire.bam all.bed.gz
+
+# ft extract test_fire_aligned.bam --m6a m6a.bed.gz
+# ft extract test_fire_aligned.bam --msp msp.bed.gz
+
+## PacBio BAM format specification: https://pacbiofileformats.readthedocs.io/en/latest/BAM.html#use-of-read-tags-for-per-read-base-base-modifications
