@@ -292,18 +292,37 @@ rm $sample\_ccs_header.sam
 echo `date` "  " $sample all done
 #-----------------------------------------------------------------------------------------------#
 
-nohup ./call_6mA_mapping k562_rep1_run1_1 > k562_rep1_run1_1.log &  # 3216764
-nohup ./call_6mA_mapping k562_01 > k562_01.log &  # 3217952
-nohup ./call_6mA_mapping k562_02 > k562_02.log &  # 3218304
-nohup ./call_6mA_mapping k562_03 > k562_03.log &  # 3218461
-nohup ./call_6mA_mapping k562_04 > k562_04.log &  # 3298193
-nohup ./call_6mA_mapping k562_05 > k562_05.log &  # 3298246
-nohup ./call_6mA_mapping k562_06 > k562_06.log &  # 3298294
-nohup ./call_6mA_mapping k562_07 > k562_07.log &  # 3298358
-nohup ./call_6mA_mapping k562_08 > k562_08.log &  # 3319152
-nohup ./call_6mA_mapping k562_09 > k562_09.log &  # 3319207
-nohup ./call_6mA_mapping k562_10 > k562_10.log &  # 3319261
-nohup ./call_6mA_mapping k562_11 > k562_11.log &  # 3319347
+nohup ./k562_rep1_run1.sh > k562_rep1_run1.log &   # 938992
+./call_6mA_mapping k562_rep1_run1_1
+./call_6mA_mapping k562_rep1_run1_2
+./call_6mA_mapping k562_rep1_run1_3
+./call_6mA_mapping k562_rep1_run1_4
+./call_6mA_mapping k562_rep1_run1_5
+./call_6mA_mapping k562_rep1_run1_6
+./call_6mA_mapping k562_rep1_run1_7
+./call_6mA_mapping k562_rep1_run1_8
+./call_6mA_mapping k562_rep1_run1_9
+
+nohup ./k562_rep1_run2.sh > k562_rep1_run2.log &   # 939175
+./call_6mA_mapping k562_rep1_run2_1
+./call_6mA_mapping k562_rep1_run2_2
+./call_6mA_mapping k562_rep1_run2_3
+./call_6mA_mapping k562_rep1_run2_4
+./call_6mA_mapping k562_rep1_run2_5
+./call_6mA_mapping k562_rep1_run2_6
+./call_6mA_mapping k562_rep1_run2_7
+./call_6mA_mapping k562_rep1_run2_8
+
+nohup ./k562_rep2.sh > k562_rep2.log &   # 940605
+./call_6mA_mapping k562_rep2_1
+./call_6mA_mapping k562_rep2_2
+./call_6mA_mapping k562_rep2_3
+./call_6mA_mapping k562_rep2_4
+./call_6mA_mapping k562_rep2_5
+./call_6mA_mapping k562_rep2_6
+./call_6mA_mapping k562_rep2_7
+
+
 
 samtools merge -t 8 -o k562_00_to_11_m6a_aligned.bam k562_*_m6a_aligned.bam
 
@@ -311,6 +330,18 @@ ft fire -t 8 k562_00_to_11_m6a_aligned.bam k562_00_to_11_fire.bam  # ~2.5 min
 # -t, --threads <THREADS>  Threads [default: 8]
 
 ft fire --extract k562_00_to_11_fire.bam k562_00_to_11_fire.bed.gz
+
+ft fire -t 8 --min-msp-length-for-positive-fire-call 100 k562_00_to_11_m6a_aligned.bam k562_00_to_11_fire_tmp.bam --fdr-table .
+ft fire --extract k562_00_to_11_fire_tmp.bam k562_00_to_11_fire_tmp.bed.gz
+zcat k562_00_to_11_fire_tmp.bed.gz | awk '{if($1==13) print$0}' > k562_00_to_11_fire_chr13_tmp.bed
+
+samtools view -b k562_00_to_11_m6a_aligned.bam 13 > k562_00_to_11_m6a_aligned_chr13.bam
+ft fire -t 8 k562_00_to_11_m6a_aligned_chr13.bam k562_00_to_11_fire_chr13.bam
+ft fire --extract k562_00_to_11_fire_chr13.bam k562_00_to_11_fire_chr13.bed.gz
+
+ft fire -t 8 --width-bin 20 k562_00_to_11_m6a_aligned_chr13.bam k562_00_to_11_fire_chr13_tmp.bam
+ft fire --extract -F 100 k562_00_to_11_fire_chr13_tmp.bam k562_00_to_11_fire_chr13_tmp.bed.gz
+ft extract k562_00_to_11_fire_chr13_tmp.bam --msp k562_00_to_11_msp_chr13_tmp.bed.gz
 
 ft extract k562_00_to_11_fire.bam --m6a k562_00_to_11_m6a.bed.gz
 
@@ -365,6 +396,10 @@ g.es["weight"] = [i for i in m[row_indices, col_indices] if i!=0]
 visual_style = {'edge_width':g.es['weight'],
                 'edge_label':g.es['weight']}
 ig.plot(g, 'test_graph.pdf', bbox=(3000, 3000), **visual_style)
+
+
+
+
 
 
 
