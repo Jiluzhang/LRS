@@ -292,6 +292,29 @@ rm $sample\_ccs_header.sam
 echo `date` "  " $sample all done
 #-----------------------------------------------------------------------------------------------#
 
+samtools view -H k562_rep1_run2_1_ccs.bam > k562_rep1_run2_1_tmp_ccs.sam
+samtools view k562_rep1_run2_1_ccs.bam | head -n 5000 >> k562_rep1_run2_1_tmp_ccs.sam
+samtools view -b k562_rep1_run2_1_tmp_ccs.sam > k562_rep1_run2_1_tmp_ccs.bam
+sample=k562_rep1_run2_1_tmp
+samtools view -H $sample\_ccs.bam > $sample\_ccs_header.sam
+sed -i 's/101-717-300/101-789-500/g' $sample\_ccs_header.sam 
+samtools reheader $sample\_ccs_header.sam $sample\_ccs.bam > $sample\_ccs_reheader.bam
+ft predict-m6a  -t 8 -b 8 -k $sample\_ccs_reheader.bam $sample\_m6a.bam
+pbmm2 align GRCh38.mmi $sample\_m6a.bam $sample\_m6a_aligned.bam --preset CCS --sort -j 8 -J 8
+ft extract --ftx "qual(m6a)>250" $sample\_m6a_aligned.bam --m6a $sample\_m6a_aligned.bed.gz
+
+
+
+# 101-789-500
+# 101-820-500
+# 101-894-200
+# 102-194-200
+# 102-194-100
+# 102-739-100
+# 103-426-500
+# 101-717-300 -> 101-789-500
+
+
 nohup ./k562_rep1_run1.sh > k562_rep1_run1.log &   # 938992
 ./call_6mA_mapping k562_rep1_run1_1
 ./call_6mA_mapping k562_rep1_run1_2
@@ -322,6 +345,25 @@ nohup ./k562_rep2.sh > k562_rep2.log &   # 940605
 ./call_6mA_mapping k562_rep2_6
 ./call_6mA_mapping k562_rep2_7
 
+
+samtools merge -t 8 -o k562_rep1_run2_m6a_aligned.bam ../k562_rep1_run2_*_m6a_aligned.bam
+samtools index -@ 8 k562_rep1_run2_m6a_aligned.bam
+samtools view -b k562_rep1_run2_m6a_aligned.bam 13 > k562_rep1_run2_m6a_aligned_chr13.bam
+ft fire -t 8 --width-bin 20 --bin-num 9 --best-window-size 50 --min-msp-length-for-positive-fire-call 85 k562_rep1_run2_m6a_aligned_chr13.bam k562_rep1_run2_fire_chr13.bam
+ft fire --extract k562_rep1_run2_fire_chr13.bam k562_rep1_run2_fire_chr13.bed.gz
+zcat k562_rep1_run2_fire_chr13.bed.gz | awk '{if($5<=10) print$0}' > k562_rep1_run2_fire_chr13_10.bed
+
+
+samtools merge -t 8 -o k562_rep2_m6a_aligned.bam ../k562_rep2_*_m6a_aligned.bam
+samtools index -@ 8 k562_rep1_run2_m6a_aligned.bam
+samtools view -b k562_rep1_run2_m6a_aligned.bam 13 > k562_rep1_run2_m6a_aligned_chr13.bam
+ft fire -t 8 --width-bin 20 --bin-num 9 --best-window-size 50 --min-msp-length-for-positive-fire-call 85 k562_rep1_run2_m6a_aligned_chr13.bam k562_rep1_run2_fire_chr13.bam
+ft fire --extract k562_rep1_run2_fire_chr13.bam k562_rep1_run2_fire_chr13.bed.gz
+zcat k562_rep1_run2_fire_chr13.bed.gz | awk '{if($5<=10) print$0}' > k562_rep1_run2_fire_chr13_10.bed
+
+
+ft extract k562_rep1_run2_fire_chr13.bam --m6a k562_rep1_run2_m6a_chr13.bed.gz
+tabix -b 2 -e 3 -p bed k562_rep1_run2_m6a_chr13.bed.gz
 
 
 samtools merge -t 8 -o k562_00_to_11_m6a_aligned.bam k562_*_m6a_aligned.bam
