@@ -280,7 +280,7 @@ samtools reheader $sample\_ccs_header.sam $sample\_ccs.bam > $sample\_ccs_rehead
 echo `date` "  " $sample rehead done
 
 ## call 6mA
-ft predict-m6a -t 8 -b 8 -k $sample\_ccs_reheader.bam $sample\_m6a.bam
+ft predict-m6a -t 8 -b 8 -k $sample\_ccs_reheader.bam $sample\_m6a.bam  # need to set --force-min-ml-score to filtering low quality sites
 echo `date` "  " $sample 6mA_calling done
 
 ## mapping
@@ -323,54 +323,54 @@ nohup ./k562_rep2.sh > k562_rep2.log &   # 940605
 ./call_6mA_mapping k562_rep2_7
 
 
-samtools merge -t 8 -o k562_rep1_run2_m6a_aligned.bam ../k562_rep1_run2_*_m6a_aligned.bam
-samtools index -@ 8 k562_rep1_run2_m6a_aligned.bam
-samtools view -b k562_rep1_run2_m6a_aligned.bam 13 > k562_rep1_run2_m6a_aligned_chr13.bam
+#-----------------------------------------------------------------------------------------------#
+## call_6mA_mapping_fire
+sample=$1
 
-ft predict-m6a -t 8 -b 8 -k --force-min-ml-score 244 k562_rep1_run2_m6a_aligned_chr13.bam k562_rep1_run2_rem6a_aligned_chr13.bam
+echo `date` $sample start
 
-ft fire -t 8 -F ML --ml "244" k562_rep1_run2_m6a_aligned_chr13.bam k562_rep1_run2_fire_chr13.bam
-ft fire --extract k562_rep1_run2_fire_chr13.bam k562_rep1_run2_fire_chr13.bed.gz
+## subreads -> ccs
+#ccs -j 8 --hifi-kinetics $sample.bam $sample\_ccs.bam
+#echo `date` "  " $sample ccs done
 
+## modify header
+samtools view -H $sample\_ccs.bam > $sample\_ccs_header.sam
+sed -i 's/101-717-300/101-789-500/g' $sample\_ccs_header.sam 
+samtools reheader $sample\_ccs_header.sam $sample\_ccs.bam > $sample\_ccs_reheader.bam
+echo `date` "  " $sample rehead done
 
-ft fire -t 8 --width-bin 20 --bin-num 9 --best-window-size 50 --min-msp-length-for-positive-fire-call 85 k562_rep1_run2_m6a_aligned_chr13.bam k562_rep1_run2_fire_chr13.bam
-ft fire --extract k562_rep1_run2_fire_chr13.bam k562_rep1_run2_fire_chr13.bed.gz
-zcat k562_rep1_run2_fire_chr13.bed.gz | awk '{if($5<=10) print$0}' > k562_rep1_run2_fire_chr13_10.bed
+## call 6mA
+ft predict-m6a -t 8 -b 8 -k --force-min-ml-score 244 $sample\_ccs_reheader.bam $sample\_m6a.bam
+echo `date` "  " $sample 6mA_calling done
 
+## mapping
+pbmm2 align GRCh38.mmi $sample\_m6a.bam $sample\_m6a_aligned.bam --preset CCS --sort -j 8 -J 8
+echo `date` "  " $sample mapping done
 
-samtools merge -t 8 -o k562_rep2_m6a_aligned.bam ../k562_rep2_*_m6a_aligned.bam
-samtools index -@ 8 k562_rep1_run2_m6a_aligned.bam
-samtools view -b k562_rep1_run2_m6a_aligned.bam 13 > k562_rep1_run2_m6a_aligned_chr13.bam
-ft fire -t 8 --width-bin 20 --bin-num 9 --best-window-size 50 --min-msp-length-for-positive-fire-call 85 k562_rep1_run2_m6a_aligned_chr13.bam k562_rep1_run2_fire_chr13.bam
-ft fire --extract k562_rep1_run2_fire_chr13.bam k562_rep1_run2_fire_chr13.bed.gz
-zcat k562_rep1_run2_fire_chr13.bed.gz | awk '{if($5<=10) print$0}' > k562_rep1_run2_fire_chr13_10.bed
+## call FIRE
+ft fire -t 8 --width-bin 20 --bin-num 9 --best-window-size 50 --min-msp-length-for-positive-fire-call 85 $sample\_m6a_aligned.bam $sample\_fire.bam
+echo `date` "  " $sample fire_calling done
 
+## extract 6mA & FIRE
+ft extract $sample\_fire.bam --m6a $sample\_m6a.bed.gz
+ft fire --extract $sample\_fire.bam $sample\_fire.bed.gz
+zcat $sample\_fire.bed.gz | awk '{if($5<=10) print$0}' > $sample\_fire_hq_10.bed
+echo `date` "  " $sample 6mA_fire_extraction done
 
-ft extract k562_rep1_run2_fire_chr13.bam --m6a k562_rep1_run2_m6a_chr13.bed.gz
-tabix -b 2 -e 3 -p bed k562_rep1_run2_m6a_chr13.bed.gz
+## remove tmp files
+rm $sample\_ccs_header.sam $sample\_ccs_reheader.bam $sample\_m6a_aligned.bam $sample\_m6a.bam $sample\_m6a_aligned.bam.bai $sample\_fire.bed.gz
+echo `date` "  " $sample all done
+#-----------------------------------------------------------------------------------------------#
 
+## rep1_run1
+nohup ./k562_rep1_run1.sh > k562_rep1_run1.log &  # 2138343
 
-samtools merge -t 8 -o k562_00_to_11_m6a_aligned.bam k562_*_m6a_aligned.bam
+## rep1_run2
+nohup ./k562_rep1_run2.sh > k562_rep1_run2.log &  # 2143272
 
-ft fire -t 8 k562_00_to_11_m6a_aligned.bam k562_00_to_11_fire.bam  # ~2.5 min
-# -t, --threads <THREADS>  Threads [default: 8]
+## rep2
+nohup ./k562_rep2.sh > k562_rep2.log &  # 2142526
 
-ft fire --extract k562_00_to_11_fire.bam k562_00_to_11_fire.bed.gz
-
-
-samtools view -b k562_00_to_11_m6a_aligned.bam 13 > k562_00_to_11_m6a_aligned_chr13.bam
-ft fire -t 8 k562_00_to_11_m6a_aligned_chr13.bam k562_00_to_11_fire_chr13.bam
-ft fire --extract k562_00_to_11_fire_chr13.bam k562_00_to_11_fire_chr13.bed.gz
-zcat k562_00_to_11_fire_chr13.bed.gz | awk '{if($5<=10) print$0}' > k562_00_to_11_fire_chr13_10.bed
-
-ft fire -t 8 --min-msp-length-for-positive-fire-call 50 k562_00_to_11_m6a_aligned_chr13.bam k562_00_to_11_fire_chr13_tmp.bam
-ft fire --extract k562_00_to_11_fire_chr13_tmp.bam k562_00_to_11_fire_chr13_tmp.bed.gz
-zcat k562_00_to_11_fire_chr13_tmp.bed.gz | awk '{if($5<=10) print$0}' > k562_00_to_11_fire_chr13_tmp_10.bed
-
-## too many FIREs -> too few FIREs???
-
-
-ft extract k562_00_to_11_fire.bam --m6a k562_00_to_11_m6a.bed.gz
 
 
 
