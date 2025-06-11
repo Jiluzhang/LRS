@@ -371,8 +371,20 @@ nohup ./k562_rep1_run2.sh > k562_rep1_run2.log &  # 2143272
 ## rep2
 nohup ./k562_rep2.sh > k562_rep2.log &  # 2142526
 
+## merge
+cat ../rep1_run1/*.bed.gz > k562_rep1_run1_m6a.bed.gz
+cat ../rep1_run2/*.bed.gz > k562_rep1_run2_m6a.bed.gz
+cat ../rep2/*.bed.gz > k562_rep2_m6a.bed.gz
+cat k562_rep1_run1_m6a.bed.gz k562_rep1_run2_m6a.bed.gz k562_rep2_m6a.bed.gz > k562_m6a.bed.gz
+zcat k562_m6a.bed.gz | sort -k1,1 -k2,2n | sed 's/+/./g' | sed 's/-/./g' | bgzip > k562_m6a_sorted.bed.gz
+tabix -b 2 -e 3 -p bed k562_m6a_sorted.bed.gz
 
-
+cat ../rep1_run1/*hq_10.bed > k562_rep1_run1_hq_10.bed
+cat ../rep1_run2/*hq_10.bed > k562_rep1_run2_hq_10.bed
+cat ../rep2/*hq_10.bed > k562_rep2_hq_10.bed
+cat k562_rep1_run1_hq_10.bed k562_rep1_run2_hq_10.bed k562_rep2_hq_10.bed > k562_hq_10.bed
+cat k562_hq_10.bed | sort -k1,1 -k2,2n | bgzip > k562_hq_10_sorted.bed.gz
+tabix -b 2 -e 3 -p bed k562_hq_10_sorted.bed.gz
 
 
 
