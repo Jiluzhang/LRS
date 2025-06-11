@@ -400,41 +400,53 @@ conda install ipython
 
 
 
-awk '{if($1=="chr13" && $2>25164000 && $3<25176000) print $0}' human_cCREs.bed | awk '{print $0 "\t" "CRE_"NR}' > ccre.bed  # 23
-zcat k562_00_to_11_fire.bed.gz | awk '{if($1=="13" && $2>25164000 && $3<25176000) print "chr"$1 "\t" $2 "\t" $3 "\t" $4}' > fire.bed  # 108
-bedtools intersect -a ccre.bed -b fire.bed -wa -wb | head
-bedtools intersect -a ccre.bed -b fire.bed -wa -wb -loj | awk '{print $4 "\t" $8}' | uniq > ccre_fire.txt
+awk '{if($1=="chr3" && $2>(196082123-100000) && $3<(196082123+100000)) print $0}' human_cCREs.bed | awk '{print $0 "\t" NR-1}' > ccre.bed  
+zcat k562_hq_10_sorted.bed.gz | awk '{if($1=="3" && $2>(196082123-100000) && $3<(196082123+100000)) print "chr"$1 "\t" $2 "\t" $3 "\t" $4}' > fire.bed  
+bedtools intersect -a ccre.bed -b fire.bed -wa -wb -loj | awk '{print $4 "\t" $8}' | uniq > ccre_reads.txt
 
 import pandas as pd
 import numpy as np
+from itertools import combinations
 import igraph as ig
 
-ccre_fire = pd.read_table('ccre_fire.txt', header=None)
-ccre_fire.columns = ['cre', 'fire']
-fire_lst = ccre_fire['fire'].drop_duplicates().values
+ccre_read = pd.read_table('ccre_reads.txt', header=None)
+ccre_read.columns = ['cre', 'read']
+read_lst = ccre_read['read'].drop_duplicates().values
+read_lst = np.delete(read_lst, np.where(read_lst=='.'))
 
-cre_lst = ccre_fire['cre'].drop_duplicates().values
-m = pd.DataFrame(np.zeros([len(cre_lst), len(cre_lst)]))
+cre_lst = ccre_read['cre'].drop_duplicates().values
+m = np.zeros([len(cre_lst), len(cre_lst)])
 m = m.astype(int)
-m.index = cre_lst
-m.columns = cre_lst
 
-for i in range(len(fire_lst)):
-    if fire_lst[i]!='.':
-        for idx in ccre_fire[ccre_fire['fire']==fire_lst[i]]['cre'].values:
-            for col in ccre_fire[ccre_fire['fire']==fire_lst[i]]['cre'].values:
-                if idx!=col:
-                    m.loc[idx, col] += 1
-m = np.array(m)
-# m[m<3] = 0 
+ccre_read.drop_duplicates(inplace=True)
+
+for i in read_lst:
+    cre_pair_lst = [list(j) for j in list(combinations(ccre_read[ccre_read['read']==i]['cre'].values, 2))]
+    cre_pair_row = [p[0] for p in cre_pair_lst]
+    cre_pair_col = [p[1] for p in cre_pair_lst]
+    m[cre_pair_row, cre_pair_col] += 1
+
+m = m + m.T
+
+## without edge label
 g = ig.Graph.Weighted_Adjacency(m, mode='undirected')
 g.vs["name"] = cre_lst
 g.vs["label"] = g.vs["name"]
 row_indices, col_indices = np.triu_indices(m.shape[0], k=1)
 g.es["weight"] = [i for i in m[row_indices, col_indices] if i!=0]
-visual_style = {'edge_width':g.es['weight'],
-                'edge_label':g.es['weight']}
-ig.plot(g, 'test_graph.pdf', bbox=(3000, 3000), **visual_style)
+visual_style = {'edge_width':g.es['weight']}
+ig.plot(g, 'TFRC_network.pdf', bbox=(3000, 3000), **visual_style)
+
+
+## with edge label
+# g = ig.Graph.Weighted_Adjacency(m, mode='undirected')
+# g.vs["name"] = cre_lst
+# g.vs["label"] = g.vs["name"]
+# row_indices, col_indices = np.triu_indices(m.shape[0], k=1)
+# g.es["weight"] = [i for i in m[row_indices, col_indices] if i!=0]
+# visual_style = {'edge_width':g.es['weight'],
+#                 'edge_label':g.es['weight']}
+# ig.plot(g, 'TFRC_network.pdf', bbox=(3000, 3000), **visual_style)
 
 
 
