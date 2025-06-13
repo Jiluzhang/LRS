@@ -17,6 +17,9 @@ done
 ## install minimap2 (version: 2.29-r1283)
 conda install bioconda::minimap2
 
+## install bedops
+conda install bioconda::bedops
+
 minimap2 -x map-ont -d GRCh38_ONT.mmi /fs/home/jiluzhang/LRS/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz  # ~1.5 min
 # -x STR       preset (always applied before other options; see minimap2.1 for details) []
 #                  - lr:hq - accurate long reads (error rate <1%) against a reference genome
@@ -33,11 +36,25 @@ minimap2 --MD -a -x map-ont -t 8 GRCh38_ONT.mmi SRR28246669_1.fastq.gz > SRR2824
 # -a           output in the SAM format (PAF by default)
 # -t INT       number of threads [3]
 
-samtools view -bS -q 30 -@ 8 SRR28246669.sam > SRR28246669_q30.bam 
+samtools view -bS -q 30 -@ 8 SRR28246669.sam > SRR28246669_Q30.bam 
+samtools sort -@ 8 SRR28246669_Q30.bam -o SRR28246669_Q30_sorted.bam
+samtools index -@ 8 SRR28246669_Q30_sorted.bam
+samtools rmdup -s SRR28246669_Q30_sorted.bam SRR28246669_Q30_sorted_rmdup.bam
+samtools index -@ 8 SRR28246669_Q30_sorted_rmdup.bam
 
-
-
-
+cat SRR28246669_Q30_sorted_rmdup.bam | bamToBed -cigar | awk -vOFS='\t' \
+                                                         '{match($7, /(^[0-9]+)[SH]/, x)
+                                                           lc=x[1]
+                                                           match($7, /([0-9]+)[SH]$/, x) 
+                                                           rc=x[1]
+                                                           if (lc == "") lc=0
+                                                           if (rc == "") rc=0
+                                                           if (lc < fc && rc < fc) print $1,$2,$3,$4,$6}' \
+                                                           fc=150 |\
+                                       sort -k1,1 -k2,2n | gzip > SRR28246669.bed.gz
+                                       
+zcat SRR28246669.bed.gz | awk -vOFS='\t' '{print "chr"$1,$2,$3,"SRR28246669",1}' | bgzip > SRR28246669_fragments.bed.gz
+tabix SRR28246669_fragments.bed.gz
 
 
 
