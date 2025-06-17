@@ -14,6 +14,16 @@ for srr_id in `cat SRR.txt`;do
     echo $srr_id done
 done
 
+for srr_id in `cat SRR_raw.txt`;do
+    if [ ! -f $srr_id"_1.fastq.gz" ];then
+        echo $srr_id >> SRR_2.txt
+    fi
+done
+
+# SRR28241176 (data not available)
+
+
+
 ## install minimap2 (version: 2.29-r1283)
 conda install bioconda::minimap2
 
@@ -56,6 +66,19 @@ cat SRR28246669_Q30_sorted_rmdup.bam | bamToBed -cigar | awk -vOFS='\t' \
 zcat SRR28246669.bed.gz | awk -vOFS='\t' '{print "chr"$1,$2,$3,"SRR28246669",1}' | bgzip > SRR28246669_fragments.bed.gz
 tabix SRR28246669_fragments.bed.gz
 
-
+cat \
+<(zcat SRR28246669_fragments.bed.gz \
+  | grep -E "^chr[0-9]|^chrX|^chrY" \
+  | bedtools flank -i - -r 1 -l 0 -g hg38.chrom.sizes \
+  | awk -vOFS='\t' '{$6="+"; print}') \
+<(cat $library.$sample.bed \
+  | grep -E "^[0-9]|^X|^Y|^chr[0-9]|^chrX|^chrY" \
+  | bedtools flank \
+      -i - \
+      -r 0 \
+      -l 1 \
+      -g $genome_chr_size \
+  | awk -vOFS='\t' '{$6="-"; print}') \
+> $library.$sample.flank.bed
 
 
