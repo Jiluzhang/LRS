@@ -52,18 +52,31 @@ samtools index -@ 8 SRR28246669_Q30_sorted.bam
 samtools rmdup -s SRR28246669_Q30_sorted.bam SRR28246669_Q30_sorted_rmdup.bam
 samtools index -@ 8 SRR28246669_Q30_sorted_rmdup.bam
 
-cat SRR28246669_Q30_sorted_rmdup.bam | bamToBed -cigar | awk -vOFS='\t' \
-                                                         '{match($7, /(^[0-9]+)[SH]/, x)
-                                                           lc=x[1]
-                                                           match($7, /([0-9]+)[SH]$/, x) 
-                                                           rc=x[1]
-                                                           if (lc == "") lc=0
-                                                           if (rc == "") rc=0
-                                                           if (lc < fc && rc < fc) print $1,$2,$3,$4,$6}' \
-                                                           fc=150 |\
+# cat SRR28246669_Q30_sorted_rmdup.bam | bamToBed -cigar | awk -vOFS='\t' \
+#                                                          '{match($7, /(^[0-9]+)[SH]/, x)
+#                                                            lc=x[1]
+#                                                            match($7, /([0-9]+)[SH]$/, x) 
+#                                                            rc=x[1]
+#                                                            if (lc == "") lc=0
+#                                                            if (rc == "") rc=0
+#                                                            if (lc < fc && rc < fc) print $1,$2,$3,$4,$6}' \
+#                                                            fc=150 |\
+#                                        sort -k1,1 -k2,2n | gzip > SRR28246669.bed.gz
+                                       
+# zcat SRR28246669.bed.gz | awk -vOFS='\t' '{print "chr"$1,$2,$3,"SRR28246669",1}' | bgzip > SRR28246669_fragments.bed.gz
+
+bedtools bamtobed -i SRR28246669_Q30_sorted_rmdup.bam | awk -vOFS='\t' \
+                                                            '{match($7, /(^[0-9]+)[SH]/, x)
+                                                            lc=x[1]
+                                                            match($7, /([0-9]+)[SH]$/, x) 
+                                                            rc=x[1]
+                                                            if (lc == "") lc=0
+                                                            if (rc == "") rc=0
+                                                            if (lc < fc && rc < fc) print $0}' \
+                                                            fc=150 |\
                                        sort -k1,1 -k2,2n | gzip > SRR28246669.bed.gz
                                        
-zcat SRR28246669.bed.gz | awk -vOFS='\t' '{print "chr"$1,$2,$3,"SRR28246669",1}' | bgzip > SRR28246669_fragments.bed.gz
+zcat SRR28246669.bed.gz | awk -vOFS='\t' '{print "chr"$0}' | bgzip > SRR28246669_fragments.bed.gz
 tabix SRR28246669_fragments.bed.gz
 
 cat \
@@ -71,14 +84,64 @@ cat \
   | grep -E "^chr[0-9]|^chrX|^chrY" \
   | bedtools flank -i - -r 1 -l 0 -g hg38.chrom.sizes \
   | awk -vOFS='\t' '{$6="+"; print}') \
-<(cat $library.$sample.bed \
-  | grep -E "^[0-9]|^X|^Y|^chr[0-9]|^chrX|^chrY" \
-  | bedtools flank \
-      -i - \
-      -r 0 \
-      -l 1 \
-      -g $genome_chr_size \
+<(zcat SRR28246669_fragments.bed.gz \
+  | grep -E "^chr[0-9]|^chrX|^chrY" \
+  | bedtools flank -i - -r 0 -l 1 -g hg38.chrom.sizes \
   | awk -vOFS='\t' '{$6="-"; print}') \
-> $library.$sample.flank.bed
+> SRR28246669_fragments_flank.bed
+
+
+zcat SRR28246669_fragments.bed.gz \
+  | grep -E "^chr[0-9]|^chrX|^chrY" \
+  | bedtools flank -i - -r 0 -l 1 -g hg38.chrom.sizes \
+  | awk -vOFS='\t' '{$6="-"; print $1,$2,$3}' > SRR28246669_fragments_L.bed
+
+zcat SRR28246669_fragments.bed.gz \
+  | grep -E "^chr[0-9]|^chrX|^chrY" \
+  | bedtools flank -i - -r 1 -l 0 -g hg38.chrom.sizes \
+  | awk -vOFS='\t' '{$6="+"; print $1,$2,$3,$4}' > SRR28246669_fragments_R.bed
+
+paste SRR28246669_fragments_L.bed SRR28246669_fragments_R.bed > SRR28246669_fragments_L_R.bedpe
+
+awk '{if($1=="chr3" && $2>(196082123-100000) && $3<(196082123+100000)) print $0}' human_cCREs.bed | awk '{print $0 "\t" NR-1}' > ccre.bed  
+zcat k562_hq_10_sorted.bed.gz | awk '{if($1=="3" && $2>(196082123-100000) && $3<(196082123+100000)) print "chr"$1 "\t" $2 "\t" $3 "\t" $4}' > fire.bed  
+bedtools intersect -a ccre.bed -b fire.bed -wa -wb -loj | awk '{print $4 "\t" $8}' | uniq > ccre_reads.txt
+
+import pandas as pd
+import numpy as np
+from itertools import combinations
+import igraph as ig
+
+ccre_read = pd.read_table('ccre_reads.txt', header=None)
+ccre_read.columns = ['cre', 'read']
+read_lst = ccre_read['read'].drop_duplicates().values
+read_lst = np.delete(read_lst, np.where(read_lst=='.'))
+
+cre_lst = ccre_read['cre'].drop_duplicates().values
+m = np.zeros([len(cre_lst), len(cre_lst)])
+m = m.astype(int)
+
+ccre_read.drop_duplicates(inplace=True)
+
+for i in read_lst:
+    cre_pair_lst = [list(j) for j in list(combinations(ccre_read[ccre_read['read']==i]['cre'].values, 2))]
+    cre_pair_row = [p[0] for p in cre_pair_lst]
+    cre_pair_col = [p[1] for p in cre_pair_lst]
+    m[cre_pair_row, cre_pair_col] += 1
+
+m = m + m.T
+
+## without edge label
+g = ig.Graph.Weighted_Adjacency(m, mode='undirected')
+g.vs["name"] = cre_lst
+g.vs["label"] = g.vs["name"]
+row_indices, col_indices = np.triu_indices(m.shape[0], k=1)
+g.es["weight"] = [i for i in m[row_indices, col_indices] if i!=0]
+visual_style = {'edge_width':g.es['weight']}
+ig.plot(g, 'TFRC_network.pdf', bbox=(3000, 3000), **visual_style)
+
+
+
+
 
 
