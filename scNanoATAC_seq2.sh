@@ -41,9 +41,67 @@ minimap2 -x map-ont -d GRCh38_ONT.mmi /fs/home/jiluzhang/LRS/Homo_sapiens.GRCh38
 #                  - ava-pb/ava-ont - PacBio CLR/Nanopore read overlap
 # -d FILE      dump index to FILE []
 
+minimap2 -x map-ont -d GRCm38_ONT.mmi /fs/home/jiluzhang/LRS/scNanoATAC_seq2/mouse_embryo/Mus_musculus.GRCm38.dna.primary_assembly.fa.gz  # ~1.5 min
+
 
 ############################################################################################################################################
-## ./read2frag SRR28246682
+## ./read2frag_mm SRR28246682
+
+sample=$1
+
+echo `date` "......." $sample  start
+
+mkdir $sample
+
+cp /fs/home/jiluzhang/LRS/scNanoATAC_seq2/$sample\_1.fastq.gz .
+
+minimap2 --MD -a -x map-ont -t 8 GRCm38_ONT.mmi $sample\_1.fastq.gz > $sample.sam
+
+samtools view -bS -q 30 -@ 8 $sample.sam > $sample\_Q30.bam 
+samtools sort -@ 8 $sample\_Q30.bam -o $sample\_Q30_sorted.bam
+samtools index -@ 8 $sample\_Q30_sorted.bam
+samtools rmdup -s $sample\_Q30_sorted.bam $sample\_Q30_sorted_rmdup.bam
+samtools index -@ 8 $sample\_Q30_sorted_rmdup.bam
+
+bedtools bamtobed -i $sample\_Q30_sorted_rmdup.bam | awk -vOFS='\t' \
+                                                         '{match($7, /(^[0-9]+)[SH]/, x)
+                                                           lc=x[1]
+                                                           match($7, /([0-9]+)[SH]$/, x) 
+                                                           rc=x[1]
+                                                           if (lc == "") lc=0
+                                                           if (rc == "") rc=0
+                                                           if (lc < fc && rc < fc) print $0}' \
+                                                           fc=150 |\
+                                                    sort -k1,1 -k2,2n | gzip > $sample.bed.gz                  
+zcat $sample.bed.gz | awk -vOFS='\t' '{print "chr"$0}' | bgzip > $sample\_fragments.bed.gz
+tabix $sample\_fragments.bed.gz
+
+zcat $sample\_fragments.bed.gz \
+  | grep -E "^chr[0-9]|^chrX|^chrY" \
+  | bedtools flank -i - -r 0 -l 1 -g mm10.chrom.sizes \
+  | awk -vOFS='\t' '{$6="-"; print $1,$2,$3}' > $sample\_fragments_L.bed
+zcat $sample\_fragments.bed.gz \
+  | grep -E "^chr[0-9]|^chrX|^chrY" \
+  | bedtools flank -i - -r 1 -l 0 -g mm10.chrom.sizes \
+  | awk -vOFS='\t' '{$6="+"; print $1,$2,$3,$4}' > $sample\_fragments_R.bed
+paste $sample\_fragments_L.bed $sample\_fragments_R.bed > $sample\_fragments_L_R.bedpe
+
+rm $sample\_1.fastq.gz $sample.sam $sample\_Q30.bam $sample\_Q30_sorted.bam $sample\_Q30_sorted.bam.bai $sample.bed.gz $sample\_fragments_L.bed $sample\_fragments_R.bed
+
+mv $sample* $sample
+
+echo `date` "......." $sample  done
+############################################################################################################################################
+
+## 10 late 2-cell
+# SRR28236540  SRR28236627  SRR28236639  SRR28236736  SRR28236851  SRR28236859  SRR28236882  SRR28236748  SRR28236551  SRR28236906
+for srr_id in SRR28236540 SRR28236627 SRR28236639 SRR28236736 SRR28236851 SRR28236859 SRR28236882 SRR28236748 SRR28236551 SRR28236906;do
+    ./read2frag_mm $srr_id
+done
+
+
+############################################################################################################################################
+## ./read2frag_hg SRR28246682
 
 sample=$1
 
