@@ -214,8 +214,7 @@ zcat GSM2970932_sciATAC_GM12878_counts.txt.gz | grep GAGATTCCGAACTCGACTTTAATTAGC
 liftOver TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA_hg19.txt hg19ToHg38.over.chain.gz TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA_hg38.txt unmapped.bed && rm unmapped.bed  # 5656
 liftOver GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT_hg19.txt hg19ToHg38.over.chain.gz GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT_hg38.txt unmapped.bed && rm unmapped.bed  # 6904
 
-java -jar juicer_tools_1.19.02.jar dump oe KR ~/scHiC/bulk_hic/loop_subtype/GSE118911_Fulco-2018-mES_combined_30.hic \
-                                              10:69340000:69340000 10:69420000:69420000 BP 10000 | sed '1d' | cut -f 3
+java -jar juicer_tools_1.19.02.jar dump None KR 4DNFI9YAVTI1.hic 1 1 BP 1000 | sed '1d' | cut -f 3
 
 bedtools makewindows -g hg38.chrom.sizes -w 1000 > hg38_1kb_bins.bed
 
