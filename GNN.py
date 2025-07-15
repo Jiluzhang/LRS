@@ -228,13 +228,13 @@ bedtools intersect -a hg38_1kb_bins.bed -b GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT_
 java -jar juicer_tools_1.19.02.jar dump oe KR 4DNFI9YAVTI1.hic 1 1 BP 1000 | sed '1d' | awk '{if($2-$1<=1000000 && $2-$1>0) print $0}' |\
                                                                              awk '{if($3>2 && $3<5) print $0}' > hic_chr1.txt  # 2262219
 
-for d in `seq 10000000 1000000 100000000`; do
-    awk '{if($1=="chr1") print $0}' hg38_1kb_bins.bed | awk '{if($2>='"$d"' && $2<('"$d"'+1000000)) print $0}' | awk '{print $0 "\t" NR-1}' > hg38_1kb_bins_chr1_1mb_test.bed
-    awk '{if($1>='"$d"' && $1<('"$d"'+1000000) && $2>='"$d"' && $2<('"$d"'+1000000)) print $0}' hic_chr1.txt > hg38_1kb_bins_chr1_1mb_test_hic.txt
-    awk '{print "chr1" "\t" $1 "\t" $1+1000}' hg38_1kb_bins_chr1_1mb_test_hic.txt | bedtools intersect -a stdin -b hg38_1kb_bins_chr1_1mb_test.bed -wa -wb | awk '{print $7}' > left.txt
-    awk '{print "chr1" "\t" $2 "\t" $2+1000}' hg38_1kb_bins_chr1_1mb_test_hic.txt | bedtools intersect -a stdin -b hg38_1kb_bins_chr1_1mb_test.bed -wa -wb | awk '{print $7}' > right.txt
+for d in `seq 10000000 100000 19999999`; do
+    awk '{if($1=="chr1") print $0}' hg38_1kb_bins.bed | awk '{if($2>='"$d"' && $2<('"$d"'+100000)) print $0}' | awk '{print $0 "\t" NR-1}' > hg38_1kb_bins_chr1_100kb_test.bed
+    awk '{if($1>='"$d"' && $1<('"$d"'+100000) && $2>='"$d"' && $2<('"$d"'+100000)) print $0}' hic_chr1.txt > hg38_1kb_bins_chr1_100kb_test_hic.txt
+    awk '{print "chr1" "\t" $1 "\t" $1+1000}' hg38_1kb_bins_chr1_100kb_test_hic.txt | bedtools intersect -a stdin -b hg38_1kb_bins_chr1_100kb_test.bed -wa -wb | awk '{print $7}' > left.txt
+    awk '{print "chr1" "\t" $2 "\t" $2+1000}' hg38_1kb_bins_chr1_100kb_test_hic.txt | bedtools intersect -a stdin -b hg38_1kb_bins_chr1_100kb_test.bed -wa -wb | awk '{print $7}' > right.txt
     paste left.txt right.txt > left_right_$d.txt
-    rm hg38_1kb_bins_chr1_1mb_test.bed hg38_1kb_bins_chr1_1mb_test_hic.txt left.txt right.txt
+    rm hg38_1kb_bins_chr1_100kb_test.bed hg38_1kb_bins_chr1_100kb_test_hic.txt left.txt right.txt
     echo $d done
 done
 
@@ -242,16 +242,32 @@ done
 
 num_nodes=1000
 feat_dim=16
-num_edges=
+num_edges=(99+1)*99/2=4950
+
+
+
+m = np.zeros([2, 4950], dtype=int)
+t = 0
+for i in range(100):
+    for j in range(100):
+        if j>i:
+            m[0][t] = i
+            m[1][t] = j
+            t += 1
+
+set_0_1 = set(tuple(col) for col in m.T)
 
 dataset = []
-
-for d in tqdm(range(10000000, 100000000+1, 1000000), ncols=80, desc='generate graphs'):
+for d in tqdm(range(10000000, 20000000, 100000), ncols=80, desc='generate graphs'):
     x = torch.randn(1000, 16)
     edge_index_df = pd.read_table('left_right_'+str(d)+'.txt', header=None)
     edge_index = torch.tensor(np.array(([edge_index_df[0].values, edge_index_df[1].values])))
     edge_label = torch.ones(edge_index.size(1))
-    neg_edges = negative_sampling(edge_index, num_nodes=1000, num_neg_samples=edge_index.size(1), force_undirected=True)
+    
+    #neg_edges = negative_sampling(edge_index, num_nodes=1000, num_neg_samples=10*edge_index.size(1), force_undirected=True)
+    set_1 = set(tuple(col) for col in np.array(([edge_index_df[0].values, edge_index_df[1].values])).T)
+    neg_edges = torch.tensor(np.array(list(set_0_1 - set_1)).T)
+    
     full_edge_index = torch.cat([edge_index, neg_edges], dim=1)
     full_edge_label = torch.cat([edge_label, torch.zeros(neg_edges.size(1))])
     dataset.append(Data(x=x, edge_index=edge_index, edge_label=full_edge_label, edge_label_index=full_edge_index))
@@ -292,7 +308,7 @@ model = MultiGraphTransformer(in_dim=16, hidden_dim=32, heads=4)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
 
 # 数据加载器
-train_loader = DataLoader(train_dataset, batch_size=2, shuffle=True)
+train_loader = DataLoader(train_dataset, batch_size=5, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
 def train():
@@ -326,13 +342,17 @@ def test(loader):
 
 # model.eval()
 # preds, labels = [], []
+# i = 0
 # with torch.no_grad():
 #     for batch in test_loader:
 #         h = model(batch.x, batch.edge_index, batch.batch)
+#         print(i, h)
 #         pred = model.decode(h, batch.edge_label_index)
 #         preds.append(pred.cpu())
 #         labels.append(batch.edge_label.cpu())
-#         break
+#         if i==1:
+#             break
+#         i += 1
 
 
 # 训练循环
