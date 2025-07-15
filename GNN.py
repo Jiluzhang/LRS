@@ -105,6 +105,9 @@ import numpy as np
 
 from torch_geometric.utils import negative_sampling
 
+import pandas as pd
+from tqdm import *
+
 def generate_random_graph(num_nodes, num_edges, feat_dim=16):
     # 生成节点特征和边
     x = torch.randn(num_nodes, feat_dim)
@@ -214,7 +217,7 @@ zcat GSM2970932_sciATAC_GM12878_counts.txt.gz | grep GAGATTCCGAACTCGACTTTAATTAGC
 liftOver TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA_hg19.txt hg19ToHg38.over.chain.gz TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA_hg38.txt unmapped.bed && rm unmapped.bed  # 5656
 liftOver GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT_hg19.txt hg19ToHg38.over.chain.gz GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT_hg38.txt unmapped.bed && rm unmapped.bed  # 6904
 
-java -jar juicer_tools_1.19.02.jar dump None KR 4DNFI9YAVTI1.hic 1 1 BP 1000 | sed '1d' | cut -f 3
+java -jar juicer_tools_1.19.02.jar dump oe KR 4DNFI9YAVTI1.hic 1 1 BP 1000 | sed '1d' | awk '{if($2-$1<=1000000 && $2-$1>0) print $0}' | awk '{if($3>2 && $3<5) print $0}' | wc -l
 
 bedtools makewindows -g hg38.chrom.sizes -w 1000 > hg38_1kb_bins.bed
 
@@ -222,13 +225,123 @@ bedtools intersect -a hg38_1kb_bins.bed -b TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA_
 bedtools intersect -a hg38_1kb_bins.bed -b GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT_hg38.txt -wa | uniq > GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT_hg38_1kb.bed  # 11582
 
 
+java -jar juicer_tools_1.19.02.jar dump oe KR 4DNFI9YAVTI1.hic 1 1 BP 1000 | sed '1d' | awk '{if($2-$1<=1000000 && $2-$1>0) print $0}' |\
+                                                                             awk '{if($3>2 && $3<5) print $0}' > hic_chr1.txt  # 2262219
+
+for d in `seq 10000000 1000000 100000000`; do
+    awk '{if($1=="chr1") print $0}' hg38_1kb_bins.bed | awk '{if($2>='"$d"' && $2<('"$d"'+1000000)) print $0}' | awk '{print $0 "\t" NR-1}' > hg38_1kb_bins_chr1_1mb_test.bed
+    awk '{if($1>='"$d"' && $1<('"$d"'+1000000) && $2>='"$d"' && $2<('"$d"'+1000000)) print $0}' hic_chr1.txt > hg38_1kb_bins_chr1_1mb_test_hic.txt
+    awk '{print "chr1" "\t" $1 "\t" $1+1000}' hg38_1kb_bins_chr1_1mb_test_hic.txt | bedtools intersect -a stdin -b hg38_1kb_bins_chr1_1mb_test.bed -wa -wb | awk '{print $7}' > left.txt
+    awk '{print "chr1" "\t" $2 "\t" $2+1000}' hg38_1kb_bins_chr1_1mb_test_hic.txt | bedtools intersect -a stdin -b hg38_1kb_bins_chr1_1mb_test.bed -wa -wb | awk '{print $7}' > right.txt
+    paste left.txt right.txt > left_right_$d.txt
+    rm hg38_1kb_bins_chr1_1mb_test.bed hg38_1kb_bins_chr1_1mb_test_hic.txt left.txt right.txt
+    echo $d done
+done
 
 
 
+num_nodes=1000
+feat_dim=16
+num_edges=
+
+dataset = []
+
+for d in tqdm(range(10000000, 100000000+1, 1000000), ncols=80, desc='generate graphs'):
+    x = torch.randn(1000, 16)
+    edge_index_df = pd.read_table('left_right_'+str(d)+'.txt', header=None)
+    edge_index = torch.tensor(np.array(([edge_index_df[0].values, edge_index_df[1].values])))
+    edge_label = torch.ones(edge_index.size(1))
+    neg_edges = negative_sampling(edge_index, num_nodes=1000, num_neg_samples=edge_index.size(1), force_undirected=True)
+    full_edge_index = torch.cat([edge_index, neg_edges], dim=1)
+    full_edge_label = torch.cat([edge_label, torch.zeros(neg_edges.size(1))])
+    dataset.append(Data(x=x, edge_index=edge_index, edge_label=full_edge_label, edge_label_index=full_edge_index))
 
 
+# 划分训练集和测试集
+train_dataset = dataset[:70]
+test_dataset = dataset[70:]
+
+class MultiGraphTransformer(nn.Module):
+    def __init__(self, in_dim, hidden_dim, heads=4):
+        super().__init__()
+        self.conv1 = TransformerConv(in_dim, hidden_dim, heads=heads, dropout=0.2)
+        self.conv2 = TransformerConv(hidden_dim*heads, hidden_dim, heads=1, dropout=0.2)
+        self.decoder = nn.Sequential(nn.Linear(2*hidden_dim, hidden_dim),
+                                     nn.ReLU(),
+                                     nn.Linear(hidden_dim, 1))
+    
+    def forward(self, x, edge_index, batch):
+        # 节点编码
+        h = F.relu(self.conv1(x, edge_index))
+        h = F.dropout(h, p=0.2, training=self.training)
+        h = self.conv2(h, edge_index)  # [num_nodes_total, hidden_dim]
+        return h
+    
+    def decode(self, h, edge_index):
+        # 计算节点对(u,v)的特征拼接
+        h_src = h[edge_index[0]]  # 源节点特征
+        h_dst = h[edge_index[1]]  # 目标节点特征
+        edge_feats = torch.cat([h_src, h_dst], dim=-1)
+        return torch.sigmoid(self.decoder(edge_feats)).squeeze()  # 输出概率
+    
+    def loss(self, pred, label):
+        return F.binary_cross_entropy(pred, label)
+
+# 初始化模型和优化器
+model = MultiGraphTransformer(in_dim=16, hidden_dim=32, heads=4)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+
+# 数据加载器
+train_loader = DataLoader(train_dataset, batch_size=2, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
+
+def train():
+    model.train()
+    total_loss = 0
+    for batch in train_loader:
+        optimizer.zero_grad()
+        h = model(batch.x, batch.edge_index, batch.batch)
+        pred = model.decode(h, batch.edge_label_index)
+        loss = model.loss(pred, batch.edge_label.float())
+        loss.backward()
+        optimizer.step()
+        total_loss += loss.item()
+    return total_loss / len(train_loader)
+
+def test(loader):
+    model.eval()
+    preds, labels = [], []
+    with torch.no_grad():
+        for batch in loader:
+            h = model(batch.x, batch.edge_index, batch.batch)
+            pred = model.decode(h, batch.edge_label_index)
+            preds.append(pred.cpu())
+            labels.append(batch.edge_label.cpu())
+    
+    pred_all = torch.cat(preds).numpy()
+    label_all = torch.cat(labels).numpy()
+    auc = roc_auc_score(label_all, pred_all)
+    ap = average_precision_score(label_all, pred_all)
+    return auc, ap
+
+# model.eval()
+# preds, labels = [], []
+# with torch.no_grad():
+#     for batch in test_loader:
+#         h = model(batch.x, batch.edge_index, batch.batch)
+#         pred = model.decode(h, batch.edge_label_index)
+#         preds.append(pred.cpu())
+#         labels.append(batch.edge_label.cpu())
+#         break
 
 
-
-
+# 训练循环
+for epoch in range(1, 201):
+    loss = train()
+    train_auc, train_ap = test(train_loader)
+    test_auc, test_ap = test(test_loader)
+    if epoch % 1 == 0:
+        print(f'Epoch: {epoch:03d}, Loss: {loss:.4f}, '
+              f'Train AUC: {train_auc:.4f}, Test AUC: {test_auc:.4f}, '
+              f'Train AP: {train_ap:.4f}, Test AP: {test_ap:.4f}')
 
