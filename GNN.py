@@ -259,7 +259,14 @@ set_0_1 = set(tuple(col) for col in m.T)
 
 dataset = []
 for d in tqdm(range(10000000, 20000000, 100000), ncols=80, desc='generate graphs'):
-    x = torch.randn(1000, 16)
+    x = torch.randn(100, 16)
+    ## add open or close info
+    idx_0_1 = torch.arange(0, 100)
+    idx_1 = torch.randperm(100)[:10]
+    idx_0 = idx_0_1[~torch.isin(idx_0_1, idx_1)]
+    x[idx_0, 0] += 1
+    x[idx_0, 1] += 1
+    
     edge_index_df = pd.read_table('left_right_'+str(d)+'.txt', header=None)
     edge_index = torch.tensor(np.array(([edge_index_df[0].values, edge_index_df[1].values])))
     edge_label = torch.ones(edge_index.size(1))
