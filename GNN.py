@@ -107,6 +107,7 @@ from torch_geometric.utils import negative_sampling
 
 import pandas as pd
 from tqdm import *
+import os
 
 def generate_random_graph(num_nodes, num_edges, feat_dim=16):
     # 生成节点特征和边
@@ -212,11 +213,13 @@ wget -c https://4dn-open-data-public.s3.amazonaws.com/fourfront-webprod/wfoutput
 
 zcat GSM2970932_sciATAC_GM12878_counts.txt.gz | cut -f 2 | sort | uniq > GSM2970932_sciATAC_GM12878_cells.txt
 
+zcat GSM2970932_sciATAC_GM12878_counts.txt.gz | grep TCTCGCGCTTGGCAAGCCTAATTGACCTATAGAGGC | sed 's/_/\t/g' | cut -f 1,2,3,5 | sort -k1,1 -k2,2n > TCTCGCGCTTGGCAAGCCTAATTGACCTATAGAGGC_hg19.txt  # 2484
 zcat GSM2970932_sciATAC_GM12878_counts.txt.gz | grep CGCTCATTTTGATACGATTCAAGATAGTGGCTCTGA | sed 's/_/\t/g' | cut -f 1,2,3,5 | sort -k1,1 -k2,2n > CGCTCATTTTGATACGATTCAAGATAGTGGCTCTGA_hg19.txt  # 10854
 zcat GSM2970932_sciATAC_GM12878_counts.txt.gz | grep ATTCAGAAGCATATGAGCCAGCCGGCTTGTACTGAC | sed 's/_/\t/g' | cut -f 1,2,3,5 | sort -k1,1 -k2,2n > ATTCAGAAGCATATGAGCCAGCCGGCTTGTACTGAC_hg19.txt  # 655
 zcat GSM2970932_sciATAC_GM12878_counts.txt.gz | grep TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA | sed 's/_/\t/g' | cut -f 1,2,3,5 | sort -k1,1 -k2,2n > TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA_hg19.txt  # 5658
 zcat GSM2970932_sciATAC_GM12878_counts.txt.gz | grep GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT | sed 's/_/\t/g' | cut -f 1,2,3,5 | sort -k1,1 -k2,2n > GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT_hg19.txt  # 6904
 
+liftOver TCTCGCGCTTGGCAAGCCTAATTGACCTATAGAGGC_hg19.txt hg19ToHg38.over.chain.gz TCTCGCGCTTGGCAAGCCTAATTGACCTATAGAGGC_hg38.txt unmapped.bed && rm unmapped.bed  # 2484
 liftOver CGCTCATTTTGATACGATTCAAGATAGTGGCTCTGA_hg19.txt hg19ToHg38.over.chain.gz CGCTCATTTTGATACGATTCAAGATAGTGGCTCTGA_hg38.txt unmapped.bed && rm unmapped.bed  # 10851
 liftOver ATTCAGAAGCATATGAGCCAGCCGGCTTGTACTGAC_hg19.txt hg19ToHg38.over.chain.gz ATTCAGAAGCATATGAGCCAGCCGGCTTGTACTGAC_hg38.txt unmapped.bed && rm unmapped.bed  # 655
 liftOver TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA_hg19.txt hg19ToHg38.over.chain.gz TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA_hg38.txt unmapped.bed && rm unmapped.bed  # 5656
@@ -226,27 +229,115 @@ java -jar juicer_tools_1.19.02.jar dump oe KR 4DNFI9YAVTI1.hic 1 1 BP 1000 | sed
 
 bedtools makewindows -g hg38.chrom.sizes -w 1000 > hg38_1kb_bins.bed
 
+bedtools intersect -a hg38_1kb_bins.bed -b TCTCGCGCTTGGCAAGCCTAATTGACCTATAGAGGC_hg38.txt -wa | uniq > TCTCGCGCTTGGCAAGCCTAATTGACCTATAGAGGC_hg38_1kb.bed  # 4307
 bedtools intersect -a hg38_1kb_bins.bed -b CGCTCATTTTGATACGATTCAAGATAGTGGCTCTGA_hg38.txt -wa | uniq > CGCTCATTTTGATACGATTCAAGATAGTGGCTCTGA_hg38_1kb.bed  # 18218
 bedtools intersect -a hg38_1kb_bins.bed -b ATTCAGAAGCATATGAGCCAGCCGGCTTGTACTGAC_hg38.txt -wa | uniq > ATTCAGAAGCATATGAGCCAGCCGGCTTGTACTGAC_hg38_1kb.bed  # 1136
 bedtools intersect -a hg38_1kb_bins.bed -b TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA_hg38.txt -wa | uniq > TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA_hg38_1kb.bed  # 9592
 bedtools intersect -a hg38_1kb_bins.bed -b GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT_hg38.txt -wa | uniq > GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT_hg38_1kb.bed  # 11582
 
-cat CGCTCATTTTGATACGATTCAAGATAGTGGCTCTGA_hg38_1kb.bed ATTCAGAAGCATATGAGCCAGCCGGCTTGTACTGAC_hg38_1kb.bed \
-    TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA_hg38_1kb.bed GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT_hg38_1kb.bed |\
-    sort -k1,1 -k2,2n | uniq > hg38_1kb_peaks.bed
+cat TCTCGCGCTTGGCAAGCCTAATTGACCTATAGAGGC_hg38_1kb.bed CGCTCATTTTGATACGATTCAAGATAGTGGCTCTGA_hg38_1kb.bed \
+    ATTCAGAAGCATATGAGCCAGCCGGCTTGTACTGAC_hg38_1kb.bed TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA_hg38_1kb.bed \
+    GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT_hg38_1kb.bed |\
+    sort -k1,1 -k2,2n | uniq > hg38_1kb_peaks.bed  # 35839
+
+grep -w chr1 hg38_1kb_peaks.bed > chr1_01.bed
+grep -w chr1 hg38_1kb_peaks.bed > chr1_02.bed
+sed -i '1d' chr1_01.bed
+sed -i '$d' chr1_02.bed
+paste chr1_01.bed chr1_02.bed | awk '{print $2-$5}' > delta_d.txt
+paste chr1_01.bed chr1_02.bed | awk '{if($5-$2>500000) print $0}' | awk '{if($1>500000) print$0}' | wc -l  # 81
+
+
+dat = pd.read_table('hg38_1kb_peaks.bed', header=None)
+chr1_lst = dat[dat[0]=='chr1'][1].values
+start = [chr1_lst[0]]
+end = []
+for i in range(chr1_lst.shape[0]-1):
+    if chr1_lst[i+1]-chr1_lst[i]>500000:
+        end.append(chr1_lst[i])
+        start.append(chr1_lst[i+1])
+
+end.append(chr1_lst[-1])
+
+pd.DataFrame({'start':start, 'end':end}).to_csv('hg38_1kb_peaks_chr1_interval.bed', sep='\t', index=False, header=False)
+
 
 java -jar juicer_tools_1.19.02.jar dump oe KR 4DNFI9YAVTI1.hic 1 1 BP 1000 | sed '1d' | awk '{if($2-$1<=1000000 && $2-$1>0) print $0}' |\
                                                                              awk '{if($3>2 && $3<5) print $0}' > hic_chr1.txt  # 2262219
+java -jar juicer_tools_1.19.02.jar dump oe KR 4DNFI9YAVTI1.hic 1 1 BP 1000 | sed '1d' | awk '{if($2-$1<=500000 && $2-$1>0) print $0}' |\
+                                                                             awk '{if($3>2 && $3<10) print $0}' > hic_chr1.txt  # 4260568
 
-for d in `seq 10000000 100000 19999999`; do
-    awk '{if($1=="chr1") print $0}' hg38_1kb_bins.bed | awk '{if($2>='"$d"' && $2<('"$d"'+100000)) print $0}' | awk '{print $0 "\t" NR-1}' > hg38_1kb_bins_chr1_100kb_test.bed
-    awk '{if($1>='"$d"' && $1<('"$d"'+100000) && $2>='"$d"' && $2<('"$d"'+100000)) print $0}' hic_chr1.txt > hg38_1kb_bins_chr1_100kb_test_hic.txt
-    awk '{print "chr1" "\t" $1 "\t" $1+1000}' hg38_1kb_bins_chr1_100kb_test_hic.txt | bedtools intersect -a stdin -b hg38_1kb_bins_chr1_100kb_test.bed -wa -wb | awk '{print $7}' > left.txt
-    awk '{print "chr1" "\t" $2 "\t" $2+1000}' hg38_1kb_bins_chr1_100kb_test_hic.txt | bedtools intersect -a stdin -b hg38_1kb_bins_chr1_100kb_test.bed -wa -wb | awk '{print $7}' > right.txt
-    paste left.txt right.txt > left_right_$d.txt
-    rm hg38_1kb_bins_chr1_100kb_test.bed hg38_1kb_bins_chr1_100kb_test_hic.txt left.txt right.txt
-    echo $d done
-done
+hg38_1kb_peaks = pd.read_table('hg38_1kb_peaks.bed', header=None)
+hg38_1kb_peaks.columns = ['chrom', 'start', 'end']
+hg38_1kb_peaks_chr1 = hg38_1kb_peaks[hg38_1kb_peaks['chrom']=='chr1']
+
+peaks_chr1_interval = pd.read_table('hg38_1kb_peaks_chr1_interval.bed', header=None)
+peaks_chr1_interval.columns = ['start', 'end']
+
+hic_chr1_interval = pd.read_table('hic_chr1.txt', header=None)
+hic_chr1_interval.columns = ['left', 'right', 'oe']
+
+for i in tqdm(range(peaks_chr1_interval.shape[0]), ncols=80):
+    peaks_interval = hg38_1kb_peaks_chr1[(hg38_1kb_peaks_chr1['start']>=peaks_chr1_interval.iloc[i, 0]) & (hg38_1kb_peaks_chr1['start']<=peaks_chr1_interval.iloc[i, 1])]
+    peaks_interval.loc[:, 'idx'] = range(peaks_interval.shape[0])
+    hic_interval = hic_chr1_interval[(hic_chr1_interval['left']>=peaks_chr1_interval.iloc[i, 0]) &
+                                     (hic_chr1_interval['right']<=peaks_chr1_interval.iloc[i, 1]) &
+                                     (hic_chr1_interval['right']-hic_chr1_interval['left']<=500000)]
+    hic_interval_left_idx = pd.merge(hic_interval['left'], peaks_interval, left_on='left', right_on='start', how='left')
+    hic_interval_right_idx = pd.merge(hic_interval['right'], peaks_interval, left_on='right', right_on='start', how='left')
+    hic_interval_left_right_idx = pd.concat([hic_interval_left_idx, hic_interval_right_idx], axis=1)
+    hic_interval_left_right_idx.dropna(inplace=True)
+    hic_interval_left_right_idx = hic_interval_left_right_idx.iloc[:, [4, 9]]
+    hic_interval_left_right_idx.columns = ['idx_left', 'idx_right']
+    hic_interval_left_right_idx['idx_left'] = hic_interval_left_right_idx['idx_left'].astype(int)
+    hic_interval_left_right_idx['idx_right'] = hic_interval_left_right_idx['idx_right'].astype(int)
+    hic_interval_left_right_idx.to_csv('left_right_'+str(i)+'.txt', sep='\t', index=False, header=False)
+    
+
+
+
+dataset = []
+for i in tqdm(range(peaks_chr1_interval.shape[0]), ncols=80, desc='generate graphs'):
+    if os.path.getsize('left_right_'+str(i)+'.txt')!=0:
+        edge_index_df = pd.read_table('left_right_'+str(i)+'.txt', header=None)
+        
+        peaks_interval = hg38_1kb_peaks_chr1[(hg38_1kb_peaks_chr1['start']>=peaks_chr1_interval.iloc[i, 0]) & (hg38_1kb_peaks_chr1['start']<=peaks_chr1_interval.iloc[i, 1])]
+        peaks_interval.loc[:, 'idx'] = range(peaks_interval.shape[0])
+    
+        x = torch.randn(peaks_interval.shape[0], 16)
+
+        edge_index = torch.tensor(np.array(([edge_index_df[0].values, edge_index_df[1].values])))
+        edge_label = torch.ones(edge_index.size(1))
+
+        m = np.zeros([2, int(1+(peaks_interval.shape[0]-1)*peaks_interval.shape[0]/2)], dtype=int)
+        t = 0
+        for i in range(peaks_interval.shape[0]):
+            for j in range(peaks_interval.shape[0]):
+                if j>i:
+                    m[0][t] = i
+                    m[1][t] = j
+                    t += 1
+        
+        set_0_1 = set(tuple(col) for col in m.T)
+        
+        set_1 = set(tuple(col) for col in np.array(([edge_index_df[0].values, edge_index_df[1].values])).T)
+        neg_edges = torch.tensor(np.array(list(set_0_1 - set_1)).T)
+        
+        full_edge_index = torch.cat([edge_index, neg_edges], dim=1)
+        full_edge_label = torch.cat([edge_label, torch.zeros(neg_edges.size(1))])
+        dataset.append(Data(x=x, edge_index=edge_index, edge_label=full_edge_label, edge_label_index=full_edge_index))
+
+
+
+# for d in `seq 10000000 100000 19999999`; do
+#     awk '{if($1=="chr1") print $0}' hg38_1kb_bins.bed | awk '{if($2>='"$d"' && $2<('"$d"'+100000)) print $0}' | awk '{print $0 "\t" NR-1}' > hg38_1kb_bins_chr1_100kb_test.bed
+#     awk '{if($1>='"$d"' && $1<('"$d"'+100000) && $2>='"$d"' && $2<('"$d"'+100000)) print $0}' hic_chr1.txt > hg38_1kb_bins_chr1_100kb_test_hic.txt
+#     awk '{print "chr1" "\t" $1 "\t" $1+1000}' hg38_1kb_bins_chr1_100kb_test_hic.txt | bedtools intersect -a stdin -b hg38_1kb_bins_chr1_100kb_test.bed -wa -wb | awk '{print $7}' > left.txt
+#     awk '{print "chr1" "\t" $2 "\t" $2+1000}' hg38_1kb_bins_chr1_100kb_test_hic.txt | bedtools intersect -a stdin -b hg38_1kb_bins_chr1_100kb_test.bed -wa -wb | awk '{print $7}' > right.txt
+#     paste left.txt right.txt > left_right_$d.txt
+#     rm hg38_1kb_bins_chr1_100kb_test.bed hg38_1kb_bins_chr1_100kb_test_hic.txt left.txt right.txt
+#     echo $d done
+# done
 
 
 
@@ -291,8 +382,8 @@ for d in tqdm(range(10000000, 20000000, 100000), ncols=80, desc='generate graphs
 
 
 # 划分训练集和测试集
-train_dataset = dataset[:70]
-test_dataset = dataset[70:]
+train_dataset = dataset[:50]
+test_dataset = dataset[50:]
 
 class MultiGraphTransformer(nn.Module):
     def __init__(self, in_dim, hidden_dim, heads=4):
