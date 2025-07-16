@@ -210,10 +210,15 @@ wget -c https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM2970nnn/GSM2970932/suppl/GSM
 ## GM12878 Hi-C data (GRCh38)
 wget -c https://4dn-open-data-public.s3.amazonaws.com/fourfront-webprod/wfoutput/5809b32e-0aea-4cf5-a174-cf162d591a35/4DNFI9YAVTI1.hic
 
+zcat GSM2970932_sciATAC_GM12878_counts.txt.gz | cut -f 2 | sort | uniq > GSM2970932_sciATAC_GM12878_cells.txt
 
+zcat GSM2970932_sciATAC_GM12878_counts.txt.gz | grep CGCTCATTTTGATACGATTCAAGATAGTGGCTCTGA | sed 's/_/\t/g' | cut -f 1,2,3,5 | sort -k1,1 -k2,2n > CGCTCATTTTGATACGATTCAAGATAGTGGCTCTGA_hg19.txt  # 10854
+zcat GSM2970932_sciATAC_GM12878_counts.txt.gz | grep ATTCAGAAGCATATGAGCCAGCCGGCTTGTACTGAC | sed 's/_/\t/g' | cut -f 1,2,3,5 | sort -k1,1 -k2,2n > ATTCAGAAGCATATGAGCCAGCCGGCTTGTACTGAC_hg19.txt  # 655
 zcat GSM2970932_sciATAC_GM12878_counts.txt.gz | grep TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA | sed 's/_/\t/g' | cut -f 1,2,3,5 | sort -k1,1 -k2,2n > TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA_hg19.txt  # 5658
 zcat GSM2970932_sciATAC_GM12878_counts.txt.gz | grep GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT | sed 's/_/\t/g' | cut -f 1,2,3,5 | sort -k1,1 -k2,2n > GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT_hg19.txt  # 6904
 
+liftOver CGCTCATTTTGATACGATTCAAGATAGTGGCTCTGA_hg19.txt hg19ToHg38.over.chain.gz CGCTCATTTTGATACGATTCAAGATAGTGGCTCTGA_hg38.txt unmapped.bed && rm unmapped.bed  # 10851
+liftOver ATTCAGAAGCATATGAGCCAGCCGGCTTGTACTGAC_hg19.txt hg19ToHg38.over.chain.gz ATTCAGAAGCATATGAGCCAGCCGGCTTGTACTGAC_hg38.txt unmapped.bed && rm unmapped.bed  # 655
 liftOver TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA_hg19.txt hg19ToHg38.over.chain.gz TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA_hg38.txt unmapped.bed && rm unmapped.bed  # 5656
 liftOver GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT_hg19.txt hg19ToHg38.over.chain.gz GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT_hg38.txt unmapped.bed && rm unmapped.bed  # 6904
 
@@ -221,9 +226,14 @@ java -jar juicer_tools_1.19.02.jar dump oe KR 4DNFI9YAVTI1.hic 1 1 BP 1000 | sed
 
 bedtools makewindows -g hg38.chrom.sizes -w 1000 > hg38_1kb_bins.bed
 
+bedtools intersect -a hg38_1kb_bins.bed -b CGCTCATTTTGATACGATTCAAGATAGTGGCTCTGA_hg38.txt -wa | uniq > CGCTCATTTTGATACGATTCAAGATAGTGGCTCTGA_hg38_1kb.bed  # 18218
+bedtools intersect -a hg38_1kb_bins.bed -b ATTCAGAAGCATATGAGCCAGCCGGCTTGTACTGAC_hg38.txt -wa | uniq > ATTCAGAAGCATATGAGCCAGCCGGCTTGTACTGAC_hg38_1kb.bed  # 1136
 bedtools intersect -a hg38_1kb_bins.bed -b TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA_hg38.txt -wa | uniq > TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA_hg38_1kb.bed  # 9592
 bedtools intersect -a hg38_1kb_bins.bed -b GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT_hg38.txt -wa | uniq > GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT_hg38_1kb.bed  # 11582
 
+cat CGCTCATTTTGATACGATTCAAGATAGTGGCTCTGA_hg38_1kb.bed ATTCAGAAGCATATGAGCCAGCCGGCTTGTACTGAC_hg38_1kb.bed \
+    TAATGCGCTTGATTGGCGTCAAGATAGTGGCTCTGA_hg38_1kb.bed GAGATTCCGAACTCGACTTTAATTAGCCCAGGACGT_hg38_1kb.bed |\
+    sort -k1,1 -k2,2n | uniq > hg38_1kb_peaks.bed
 
 java -jar juicer_tools_1.19.02.jar dump oe KR 4DNFI9YAVTI1.hic 1 1 BP 1000 | sed '1d' | awk '{if($2-$1<=1000000 && $2-$1>0) print $0}' |\
                                                                              awk '{if($3>2 && $3<5) print $0}' > hic_chr1.txt  # 2262219
