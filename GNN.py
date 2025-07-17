@@ -306,10 +306,7 @@ for i in tqdm(range(peaks_chr1_interval.shape[0]), ncols=80, desc='generate grap
     
         x = torch.randn(peaks_interval.shape[0], 16)
 
-        edge_index = torch.tensor(np.array(([edge_index_df[0].values, edge_index_df[1].values])))
-        edge_label = torch.ones(edge_index.size(1))
-
-        m = np.zeros([2, int(1+(peaks_interval.shape[0]-1)*peaks_interval.shape[0]/2)], dtype=int)
+        m = np.zeros([2, int((1+peaks_interval.shape[0]-1)*(peaks_interval.shape[0]-1)/2)], dtype=int)
         t = 0
         for i in range(peaks_interval.shape[0]):
             for j in range(peaks_interval.shape[0]):
@@ -318,12 +315,17 @@ for i in tqdm(range(peaks_chr1_interval.shape[0]), ncols=80, desc='generate grap
                     m[1][t] = j
                     t += 1
         
+        edge_index = torch.tensor(m)
+        
+        edge_index_1 = torch.tensor(np.array(([edge_index_df[0].values, edge_index_df[1].values])))
+        edge_label = torch.ones(edge_index_1.size(1))
+      
         set_0_1 = set(tuple(col) for col in m.T)
         
         set_1 = set(tuple(col) for col in np.array(([edge_index_df[0].values, edge_index_df[1].values])).T)
         neg_edges = torch.tensor(np.array(list(set_0_1 - set_1)).T)
         
-        full_edge_index = torch.cat([edge_index, neg_edges], dim=1)
+        full_edge_index = torch.cat([edge_index_1, neg_edges], dim=1)
         full_edge_label = torch.cat([edge_label, torch.zeros(neg_edges.size(1))])
         dataset.append(Data(x=x, edge_index=edge_index, edge_label=full_edge_label, edge_label_index=full_edge_index))
 
@@ -448,19 +450,18 @@ def test(loader):
     ap = average_precision_score(label_all, pred_all)
     return auc, ap
 
-# model.eval()
-# preds, labels = [], []
-# i = 0
-# with torch.no_grad():
-#     for batch in test_loader:
-#         h = model(batch.x, batch.edge_index, batch.batch)
-#         print(i, h)
-#         pred = model.decode(h, batch.edge_label_index)
-#         preds.append(pred.cpu())
-#         labels.append(batch.edge_label.cpu())
-#         if i==1:
-#             break
-#         i += 1
+model.eval()
+preds, labels = [], []
+i = 0
+with torch.no_grad():
+    for batch in test_loader:
+        h = model(batch.x, batch.edge_index, batch.batch)
+        #print(i, h)
+        pred = model.decode(h, batch.edge_label_index)
+        preds.append(pred.cpu())
+        labels.append(batch.edge_label.cpu())
+        if i==1:
+            break
 
 
 # 训练循环
